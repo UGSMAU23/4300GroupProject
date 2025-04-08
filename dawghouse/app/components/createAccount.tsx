@@ -17,6 +17,7 @@ const CreateAccount = () => {
                             <input className="text-white" type="submit" value="Login"/>
                         </div>
                     </Form>
+                    
                     <div className="text-sm text-left px-12 pb-10">
                         <a href="..." className="text-black underline block">Already have an account? Log in here.</a>
                     </div>

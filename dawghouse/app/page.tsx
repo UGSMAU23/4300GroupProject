@@ -3,7 +3,7 @@ import Navbar from '@/app/components/navbar';
 import About from '@/app/components/about';
 import Contact from "@/app/components/contact";
 import Login from "@/app/components/login";
-import CreateAccount from "@/app/components/createAcount";
+import CreateAccount from "@/app/components/createAccount";
 
 export default function Home() {
   return (
