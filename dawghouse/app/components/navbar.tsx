@@ -68,8 +68,8 @@ const Navbar = () => {
         <Link href="#contact" onClick={(e) => handleScrollClick(e, 'contact')}>
           <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">Contact</span>
         </Link>
-        <Link href="#" className="cursor-pointer hover:text-red-600 transition-colors font-bold">Log In</Link>
-        <Link href="#">
+        <Link href="/login" className="cursor-pointer hover:text-red-600 transition-colors font-bold">Log In</Link>
+        <Link href="/signup">
           <button className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-700">Get Started</button>
         </Link>
       </div>
