@@ -25,18 +25,15 @@ const Navbar = () => {
   };
 
   const handleScrollClick = (e: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault();
-
     if (pathname === '/') {
       // Scrolls to sections if on splash page, redirects to splash page and scrolls to element if on a different page
+      e.preventDefault();
 
       const section = document.getElementById(sectionId);
       if (section) {
         section.scrollIntoView({behavior: 'smooth'});
-      } else {
-        router.push(`/#${sectionId}`);
       }
-    }
+    } 
   };
 
   useEffect(() => {
@@ -62,10 +59,10 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex items-center space-x-10">
-        <Link href="#about" onClick={(e) => handleScrollClick(e, 'about')}>
+        <Link href="/#about" onClick={(e) => handleScrollClick(e, 'about')} >
           <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">About</span>
         </Link>
-        <Link href="#contact" onClick={(e) => handleScrollClick(e, 'contact')}>
+        <Link href="/#contact" onClick={(e) => handleScrollClick(e, 'contact')}>
           <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">Contact</span>
         </Link>
         <Link href="/login" className="cursor-pointer hover:text-red-600 transition-colors font-bold">Log In</Link>
