@@ -1,11 +1,25 @@
+"use client" 
 import house from '@/public/images/house.png';
 import Image from "next/image";
+import UserModal from './userModal';
+import { useState } from "react";
+
 
 const UsersDashboard = () => {
-
-
     const numberOfUsers = 20; // for example only, replace with json data later.
     const userArray = Array.from({ length: numberOfUsers }, (_, index) => index); // create array to map over
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
+
+    const openModal = (index: number) => {
+        setSelectedUserIndex(index);
+        setIsModalOpen(true);
+      };
+    
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedUserIndex(null);
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
@@ -36,10 +50,15 @@ const UsersDashboard = () => {
                 </div>
                 <p className="text-black font-semibold">User {index + 1}</p>
                 <p className="text-red-500 font-semibold">{index + 1}% Compatible</p>
-                <button className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Learn More</button>
+                <button onClick={() => openModal(index)} className="mt-4 bg-red-500 cursor-pointer text-white py-2 px-4 rounded hover:bg-red-600">Learn More</button>
                 </div>
             ))}
             </div>
+            <UserModal
+                isOpen={isModalOpen}
+                userIndex={selectedUserIndex}
+                onClose={closeModal}
+            />
       </div>
     )
 };
