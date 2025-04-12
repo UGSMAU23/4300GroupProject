@@ -67,7 +67,7 @@ const Navbar = () => {
         </Link>
         <Link href="/login" className="cursor-pointer hover:text-red-600 transition-colors font-bold">Log In</Link>
         <Link href="/signup">
-          <button className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-700">Get Started</button>
+          <button className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-700 font-semi-bold">Join Now</button>
         </Link>
       </div>
     </nav>
