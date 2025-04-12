@@ -3,7 +3,7 @@ import Form from 'next/form'
 
 const Contact = () => {
     return (
-        <div className="flex justify-center items-center flex-col mt-10 mb-10" >
+        <div className="flex justify-center items-center flex-col mt-10" >
             <div className="flex text-5xl">
                 <h1 className="text-black">Contact Us</h1>
             </div>
