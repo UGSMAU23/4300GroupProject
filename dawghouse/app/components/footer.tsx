@@ -5,7 +5,7 @@ import Link from 'next/link';
 const Footer = () => {
     return (
         // Fix white space above footer + add functionality from navbar to logo onClick in future
-        <footer className="flex justify-center items-center py-4 bg-white border-t">
+        <footer className="flex justify-center items-center py-4 bg-white">
             <div className="flex items-center space-x-6">
                 <Link href="/" className="flex items-center">
                     <Image src="dog.svg" alt="DawgHouse Logo" width="0" height="0" className="w-12 h-12 mr-2" />
