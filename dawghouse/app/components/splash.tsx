@@ -22,8 +22,8 @@ const Splash = () => {
   };
 
   return (
-    <div className="min-h-[50vh] bg-white overflow-hidden" >
-      <div className="flex flex-col lg:flex-row min-h-[50vh]">
+    <div className="min-h-[70vh] bg-white overflow-hidden" >
+      <div className="flex flex-col lg:flex-row min-h-[70vh]">
 
         <div className="w-full lg:w-1/2 flex items-center p-16 md:p-32 lg:p-64 relative">
           <div className="max-w-lg">
