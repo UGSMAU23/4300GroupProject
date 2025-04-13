@@ -36,14 +36,13 @@ export const metadata: Metadata = {
   description: "A quick and easy roommate matching service for UGA students.",
 };
 
-const session = await auth();
-console.log("ROOT session: ", session);
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  //console.log("ROOT session: ", session);
   return (
     <html lang="en">
       <body>
