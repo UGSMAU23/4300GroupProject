@@ -1,3 +1,4 @@
+"use server";
 import Login from "@/app/components/login";
 
 

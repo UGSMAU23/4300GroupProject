@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Roboto, League_Spartan, Montserrat } from "next/font
 import "./globals.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import { SessionProvider, useSession } from "next-auth/react";
+import { auth } from "@/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +36,9 @@ export const metadata: Metadata = {
   description: "A quick and easy roommate matching service for UGA students.",
 };
 
+const session = await auth();
+console.log("ROOT session: ", session);
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,9 +47,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <SessionProvider session={session}>
+          <Navbar />
+          {children}
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,6 +1,10 @@
+"use client";
 import Form from 'next/form';
 import Link from 'next/link';
 import { League_Spartan } from 'next/font/google';
+import { FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { doCredentialsLogin } from '../actions';
 
 const league = League_Spartan({
     weight: '400',
@@ -8,6 +12,27 @@ const league = League_Spartan({
 });
 
 const Login = () => {
+
+    const router = useRouter();
+
+    async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
+        event.preventDefault();
+    
+        try {
+            const formData = new FormData(event.currentTarget);
+    
+            const response = await doCredentialsLogin(formData);
+    
+            if (response?.error) {
+                console.error(response.error);
+            } else {
+                router.push("/");
+            }
+        } catch (e: any) {
+            console.error(e);
+        }
+    }
+
     return (
         <div className="flex justify-start items-center flex-col bg-pink-50 h-screen">
             <div className="flex text-5xl mt-30">
@@ -15,7 +40,7 @@ const Login = () => {
             </div>
             <div className="w-screen flex justify-center items-center">
                 <div className="bg-white border-solid rounded-lg mt-10 mb-10 shadow-lg/50 w-[500px]">
-                    <Form action={ "/login" } className="flex flex-col m-10">
+                    <Form onSubmit={onSubmit} className="flex flex-col m-10">
                         <label htmlFor="email">Email</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="email" name="email" type="email" placeholder="Email" required/>
                         <label htmlFor="password" className="mt-3">Password</label>
