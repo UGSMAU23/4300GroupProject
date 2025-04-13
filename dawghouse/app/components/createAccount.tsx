@@ -14,9 +14,11 @@ const CreateAccount = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent) => {
+        setIsLoading(true);
         event.preventDefault();
     
         try {
@@ -31,8 +33,11 @@ const CreateAccount = () => {
             if (!response.ok) {
                 throw new Error("Create account network response not OK");
             }
+            router.replace('/login');
         } catch (e: any) {
             console.log(e);
+        } finally {
+            setIsLoading(false);
         }
     
     }
@@ -52,7 +57,9 @@ const CreateAccount = () => {
                         <label htmlFor="password" className="mt-3">Password</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="password" name="password" type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required/>
                         <div className="bg-red-800 rounded-md flex justify-center items-center mt-5 shadow-md">
-                            <input className="text-white" type="submit" value="Create Account"/>
+                            <button className="text-white grow" value="Login" type='submit' disabled={isLoading}>
+                                {isLoading ? "Loading..." : "Create Account"}
+                            </button>
                         </div>
                     </Form>
                     
