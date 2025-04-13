@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request:NextRequest) {
     const {username, email, password} = await request.json();
     await connectMongoDB();
-    const hashedPassword = await bcrypt.hash(password, 5);
+    const hashedPassword = await bcrypt.hash(password, 15);
     const newUser = {
         username,
         password: hashedPassword,
