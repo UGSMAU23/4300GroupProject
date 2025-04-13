@@ -1,6 +1,9 @@
 // components/Navbar.tsx
 'use client';
 
+import { auth } from '@/auth';
+import { Session } from 'next-auth';
+import { getSession, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -10,6 +13,7 @@ const Navbar = () => {
 
   const router = useRouter();
   const pathname = usePathname();
+  const {data: session, status} = useSession();
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
