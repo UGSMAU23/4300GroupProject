@@ -1,9 +1,7 @@
 // components/Navbar.tsx
 'use client';
 
-import { auth } from '@/auth';
-import { Session } from 'next-auth';
-import { getSession, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -13,7 +11,7 @@ const Navbar = () => {
 
   const router = useRouter();
   const pathname = usePathname();
-  const {data: session, status} = useSession();
+  const {data: session, status, update} = useSession();
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -41,6 +39,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    update();
     if (pathname === '/' && window.location.hash) {
       const sectionId = window.location.hash.slice(1); // Remove the '#'
       const section = document.getElementById(sectionId);
@@ -50,7 +49,45 @@ const Navbar = () => {
     }
   }, [pathname]);
 
+  //console.log("NAVBAR Session: ", session);
+  if (session != null) {
+
+
+    // This is the navbar rendered when the user is signed in.
+
+
+    return (
+      <nav className="flex justify-between items-center p-4 bg-white sticky top-0 z-10">
+        <div className="flex items-center">
+        <Link href="/" passHref onClick={handleLogoClick} className="flex items-center">
+            <Image src="dog.svg" alt="DawgHouse Logo" width="0" height="0" className="w-12 h-12 mr-2" />
+            <div className="flex items-center cursor-pointer">
+              <span className="font-bold text-3xl">
+                Dawg<span className="text-red-600">House</span>
+              </span>
+            </div>
+          </Link>
+        </div>
+        <div className="flex items-center space-x-10">
+          <Link href="/#about" onClick={(e) => handleScrollClick(e, 'about')} >
+            <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">About</span>
+          </Link>
+          <Link href="/#contact" onClick={(e) => handleScrollClick(e, 'contact')}>
+            <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">Contact</span>
+          </Link>
+          <button onClick={() => signOut()} className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-700 font-semi-bold">Sign Out, {session?.user?.name}</button>
+          
+        </div>
+      </nav>
+    );
+  }
+
   return (
+
+
+    // This is the navbar rendered if the user is not signed in
+
+
     <nav className="flex justify-between items-center p-4 bg-white sticky top-0 z-10">
       <div className="flex items-center">
       <Link href="/" passHref onClick={handleLogoClick} className="flex items-center">
