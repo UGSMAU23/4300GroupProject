@@ -47,9 +47,9 @@ const CreateAccount = () => {
             <div className="flex text-5xl mt-30">
                 <h1 className={`text-black ${league.className}`}>Create Account</h1>
             </div>
-            <div className="w-screen flex justify-center items-center">
-            <div className="bg-white border-solid rounded-lg mt-10 mb-10 shadow-lg/50 w-[500px]">
-                <Form onSubmit={handleSubmit} className="flex flex-col m-10">
+            <div className="w-screen flex justify-center items-center px-4 md:px-0">
+                <div className="bg-white border-solid rounded-lg mt-10 mb-10 shadow-lg/50 w-[500px]">
+                    <Form onSubmit={handleSubmit} className="flex flex-col m-10">
                         <label htmlFor="email">Name</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="username" name="username" onChange={(e) => setUsername(e.target.value)} placeholder="Name" required/>
                         <label htmlFor="email">Email</label>

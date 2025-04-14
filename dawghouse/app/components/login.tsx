@@ -42,7 +42,7 @@ const Login = () => {
             <div className="flex text-5xl mt-30">
                 <h1 className={`text-black ${league.className}`}>Login</h1>
             </div>
-            <div className="w-screen flex justify-center items-center">
+            <div className="w-screen flex justify-center items-center px-4 md:px-0">
                 <div className="bg-white border-solid rounded-lg mt-10 mb-10 shadow-lg/50 w-[500px]">
                     <Form onSubmit={onSubmit} className="flex flex-col m-10">
                         <label htmlFor="email">Email</label>
