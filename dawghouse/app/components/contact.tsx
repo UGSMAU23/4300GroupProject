@@ -7,7 +7,7 @@ const Contact = () => {
             <div className="flex text-5xl mt-10">
                 <h1 className="text-black">Contact Us</h1>
             </div>
-            <div className="w-screen flex justify-center items-center">
+            <div className="flex justify-center items-center">
                 <div className='bg-white border-solid border-gray-400 border-2 rounded-lg mt-10 mb-10'>
                     <Form action={"/contact"} className='flex flex-col m-10'>
                         <label htmlFor="name" className='' >Name</label>
