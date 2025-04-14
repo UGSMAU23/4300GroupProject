@@ -1,11 +1,11 @@
 
 import Form from '../components/form';
 
-const QuestionnairePage = () => {
+const QuizPage = () => {
 
     return (
         <Form />
     )
 };
 
-export default QuestionnairePage;
+export default QuizPage;

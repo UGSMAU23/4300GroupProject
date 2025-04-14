@@ -105,7 +105,7 @@ const Navbar = () => {
 
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-30">
-                <Link href="/questionnaire" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+                <Link href="/quiz" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                 <ClipboardList size={16} /> Questionnaire
                 </Link>
                 <Link href="/settings" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
@@ -132,7 +132,7 @@ const Navbar = () => {
               <Link href="/#contact" onClick={(e) => { handleScrollClick(e, 'contact'); setMobileMenuOpen(false); }} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
               <Mail size={16} /> Contact
               </Link>
-              <Link href="/questionnaire" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+              <Link href="/quiz" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
               <ClipboardList size={16} /> Questionnaire
               </Link>
               <Link href="/settings" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
