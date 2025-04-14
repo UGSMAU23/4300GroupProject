@@ -19,9 +19,9 @@ const DawgHouse = () => {
     };
 
     return (
-        <div className="min-h-[60vh] bg-slate-100 flex flex-col justify-center items-center px-4">
+        <div className="min-h-[60vh] pt-8 bg-slate-100 flex flex-col justify-center items-center px-4">
             {/* Title */}
-            <div className="flex text-5xl text-center">
+            <div className="flex text-3xl md:text-5xl text-center">
                 <h1 className="text-black">What is </h1>
                 <h1 className="text-red-600 ml-2">DawgHouse</h1>
                 <h1 className="text-black ml-2">?</h1>
@@ -36,7 +36,7 @@ const DawgHouse = () => {
             </div>
 
             {/* 3-Card Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mt-10 w-full max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-20 mt-10 w-full max-w-6xl">
                 {/* Card 1: UGA Login */}
                 <div className="bg-white shadow-lg rounded-2xl p-6 border-t-4 border-red-400 hover:scale-[1.02] transition-transform flex flex-col items-center text-center">
                     <MailCheck className="w-10 h-10 text-red-600 mb-4" />
@@ -66,7 +66,7 @@ const DawgHouse = () => {
             </div>
 
             {/* CTA */}
-            <div className="mt-12 text-lg text-center">
+            <div className="mt-12 pb-8 text-lg text-center">
                 <p>
                     Ready to find your perfect roommate? <a onClick={handleGetStartedClick} className="text-red-600 cursor-pointer font-semibold hover:underline">Get started here</a>.
                 </p>
