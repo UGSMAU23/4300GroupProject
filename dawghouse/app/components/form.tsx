@@ -263,7 +263,7 @@ const Form = () => {
               <form className="flex flex-col m-10" onSubmit={handleSubmit}>
                 {questions.map((q, index) => renderQuestion(q, index))}
                 <div className="bg-red-800 rounded-md flex justify-center cursor-pointer items-center mt-5 shadow-md">
-                  <input className="text-white px-4 cursor-pointer py-2" type="submit" value="Submit" />
+                  <input className="text-white px-4 cursor-pointer py-2 w-full" type="submit" value="Submit" />
                 </div>
               </form>
             </div>
