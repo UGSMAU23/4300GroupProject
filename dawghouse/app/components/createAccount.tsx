@@ -49,7 +49,7 @@ const CreateAccount = () => {
             </div>
             <div className="w-screen flex justify-center items-center px-4 md:px-0">
                 <div className="bg-white border-solid rounded-lg mt-10 mb-10 shadow-lg/50 w-[500px]">
-                    <Form onSubmit={handleSubmit} className="flex flex-col m-10">
+                    <Form action='' onSubmit={handleSubmit} className="flex flex-col m-10">
                         <label htmlFor="email">Name</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="username" name="username" onChange={(e) => setUsername(e.target.value)} placeholder="Name" required/>
                         <label htmlFor="email">Email</label>
