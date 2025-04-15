@@ -69,6 +69,28 @@ const Form = () => {
           });
     
           if (updateRes.ok) {
+            // if updating a user's answers is successful, grab the answers from the database.
+            const getAns = await fetch(`/api/user/${userId}`, {
+              method: 'GET',
+            });
+            const userAnswers = await getAns.json();
+            console.log("Answers: ", userAnswers.answers);
+
+            // put the form answers as the description just for now. 
+            // later the intermediate step is send the answers to gpt, and push that as the description.
+            const userDescription = answersArray.join(', ');
+            console.log("Description: ", userDescription);
+            const updateDescription = await fetch(`/api/user/${userId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ description: userDescription })
+            });
+            if (updateDescription.ok) {
+              console.log("Updated the description for a user.");
+            } else {
+              console.log("Failed to update user description.");
+            }
+
             router.push('/matches');
           } else {
             console.error("Failed to submit answers");

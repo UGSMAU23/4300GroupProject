@@ -19,8 +19,6 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
     if (answers) update.answers = answers;
     if (currentPassword && newPassword) {
         const user = await User.findById(id);
-        
-        console.log("USER: ", user);
         const matches = await bcrypt.compare(currentPassword, user.get('password'));
         if (matches) {
             const hashedPassword = await bcrypt.hash(newPassword, 15);
@@ -34,13 +32,14 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
-    const { id } = params;
+    const { id } = await params;
     await connectMongoDB();
     const user = await User.findById(id).select("answers");
+    console.log("user: " + user?.answers);
 
     if (!user) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-    
+
     return NextResponse.json({ answers: user.answers }, { status: 200 });
 }
