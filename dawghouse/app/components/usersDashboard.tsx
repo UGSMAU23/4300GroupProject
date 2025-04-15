@@ -8,6 +8,7 @@ interface User {
     _id: string;
     username: string;
     hashEmail: string;
+    description?: string;
     // can add other fields later.
 }
 
@@ -78,9 +79,10 @@ const UsersDashboard = () => {
             ))}
             </div>
             <UserModal
-                isOpen={isModalOpen}
-                userIndex={selectedUserIndex}
-                onClose={closeModal}
+              isOpen={isModalOpen}
+              user={selectedUserIndex !== null ? users[selectedUserIndex] : null}
+              compatibility={selectedUserIndex !== null ? Math.floor(Math.random() * 21) + 80 : null}
+              onClose={closeModal}
             />
       </div>
     )
