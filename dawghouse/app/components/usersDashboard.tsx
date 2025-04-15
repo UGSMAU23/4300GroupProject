@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 interface User {
     _id: string;
     username: string;
+    hashEmail: string;
     // can add other fields later.
 }
 
@@ -28,6 +29,7 @@ const UsersDashboard = () => {
         };
     
         fetchUsers();
+
       }, []);
 
     const openModal = (index: number) => {
@@ -57,7 +59,7 @@ const UsersDashboard = () => {
             <div key={user._id} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full overflow-hidden mb-2">
                     <Image
-                        src={pfp}
+                        src={`https://gravatar.com/avatar/${user.hashEmail}`}
                         alt={`${user.username} headshot`}
                         width={64}
                         height={64}
