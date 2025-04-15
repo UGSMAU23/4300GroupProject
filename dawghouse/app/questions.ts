@@ -1,7 +1,7 @@
 export interface Question {
     question?: string;
     questions?: string;
-    type: 'pick-one' | 'pick-multiple' | 'free-number' | 'free-text';
+    type: 'pick-one' | 'pick-multiple' | 'free-number' | 'free-text' | 'phone-number' | 'email';
     answers?: string[];
     min?: number;
     max?: number;
@@ -139,11 +139,11 @@ const questions: Question[] = [
     },
     {
         question: "Phone Number (if selected above):",
-        type: "free-number",
+        type: "phone-number",
     },
     {
         question: "Email (if selected above):",
-        type: "free-text",
+        type: "email",
     }
 ];
 
