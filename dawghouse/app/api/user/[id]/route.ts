@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
         const hashedPassword = await bcrypt.hash(password, 15);
         update.password = hashedPassword;
     }
-    
+    console.log("Updating user with:", update);
     await User.findByIdAndUpdate(id, update);
     return NextResponse.json({message: "User updated"}, {status: 200});
 }

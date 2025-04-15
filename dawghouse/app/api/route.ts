@@ -6,9 +6,15 @@ interface RouteParams {
     params: {email: string};
 }
 
-export async function GET(request: NextRequest, {params}:RouteParams) {
-    const userEmail = await params;
+export async function GET(request: NextRequest) {
+    const url = new URL(request.url);
+    const email = url.searchParams.get("email");
+  
+    if (!email) {
+      return NextResponse.json({ error: "Missing email" }, { status: 400 });
+    }
+  
     await connectMongoDB();
-    const user = await User.find({email: userEmail});
-    return NextResponse.json({user});
-}
+    const user = await User.findOne({ email });
+    return NextResponse.json({ user });
+  }
