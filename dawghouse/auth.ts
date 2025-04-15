@@ -5,6 +5,12 @@ import bcrypt from "bcryptjs";
 import User from "./models/UserSchema";
 import connectMongoDB from "./config/mongodb";
 
+interface LeanUser {
+    _id: string | { toString(): string }; // Handle ObjectId or string
+    email: string;
+    password: string;
+    username: string;
+}
 
 export const {
     handlers: {GET, POST},
@@ -19,12 +25,12 @@ export const {
                 email: {},
                 password: {},
             },
-            async authorize(credentials) {
+            async authorize(credentials): Promise<{id: string; email: string; name: string} | null> {
                 if (!credentials) return null;
 
                 try {
                     connectMongoDB();
-                    const user = await User.findOne({email: credentials.email}).lean();
+                    const user = await User.findOne({email: credentials.email}).lean<LeanUser>();
 
                     if (user) {
                         const isMatch = await bcrypt.compare(
@@ -34,7 +40,7 @@ export const {
 
                         if (isMatch) {
                             return {
-                                id: user._id.toString(),
+                                id: String(user._id),
                                 email: user.email,
                                 name: user.username,
                             };
