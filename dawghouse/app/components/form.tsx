@@ -52,14 +52,18 @@ const Form = () => {
             console.error("User ID not found");
             return;
           }
-          const answersArray = questions.map((_, index) => {
+          const answersArray = questions.map((q, index) => {
+            const rawLabel = q.question || q.questions || `Question ${index + 1}`;
+            const label = rawLabel.replace(/:$/, ""); // remove trailing colon if present
             const response = responses[index];
+          
             if (Array.isArray(response)) {
-              return response.join(", "); // Flatten multiple selections into one string
+              return `${label}: ${response.join(", ")}`;
             }
-            return response || "";
+          
+            return `${label}: ${response || "No answer"}`;
           });
-              console.log("Submitting answers:", answersArray);
+          console.log("Submitting answers:", answersArray);
     
           // Submit answers to /api/user/[id]
           const updateRes = await fetch(`/api/user/${userId}`, {
@@ -69,22 +73,24 @@ const Form = () => {
           });
     
           if (updateRes.ok) {
-            // if updating a user's answers is successful, grab the answers from the database.
-            const getAns = await fetch(`/api/user/${userId}`, {
-              method: 'GET',
-            });
-            const userAnswers = await getAns.json();
-            console.log("Answers: ", userAnswers.answers);
 
-            // put the form answers as the description just for now. 
-            // later the intermediate step is send the answers to gpt, and push that as the description.
-            const userDescription = answersArray.join(', ');
-            console.log("Description: ", userDescription);
+            const gptResponse = await fetch('/api/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                prompt: `The following are survey answers from a college student filling out a roommate compatibility form. Write a short paragraph (3-4 sentences) that summarizes their lifestyle, habits, and roommate preferences in a friendly tone:\n\n${answersArray.join(', ')}`
+              })
+            });
+            
+            const { result: generatedDescription } = await gptResponse.json();
+            console.log("GPT Description: ", generatedDescription);
+
             const updateDescription = await fetch(`/api/user/${userId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ description: userDescription })
+              body: JSON.stringify({ description: generatedDescription })
             });
+            
             if (updateDescription.ok) {
               console.log("Updated the description for a user.");
             } else {
