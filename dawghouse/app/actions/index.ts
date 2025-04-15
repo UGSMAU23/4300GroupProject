@@ -17,8 +17,9 @@ export async function doCredentialsLogin(formData: FormData): Promise<any> {
             password,
             redirect: false,
         });
+        console.log("RESPONSE USER: ", response);
         return response;
     } catch (e: any) {
-        throw e;
+        return {error: "Error"};
     }
 }

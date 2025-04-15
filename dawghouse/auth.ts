@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import User from "./models/UserSchema";
 import connectMongoDB from "./config/mongodb";
 
+
 export const {
     handlers: {GET, POST},
     auth,
@@ -27,8 +28,8 @@ export const {
 
                     if (user) {
                         const isMatch = await bcrypt.compare(
-                            credentials.password,
-                            user.password
+                            credentials.password as string,
+                            user.password as string,
                         );
 
                         if (isMatch) {

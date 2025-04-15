@@ -2,6 +2,7 @@ import email from "next-auth/providers/email";
 import { SettingsProp } from "../settingsCard";
 import Form from "next/form";
 import { useState } from "react";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 function Account(props: SettingsProp) {
     const [username, setUsername] = useState(props.accountName);
@@ -31,10 +32,23 @@ function Account(props: SettingsProp) {
 
         setCurrentPassword('');
         setNewPassword('');
+
+        toast.success('Account Details Updated', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+        });
     }
 
     return (
         <div className="mr-10 ml-20 mb-10 w-80 h-85 pt-10 flex flex-col items-center justify-center">
+            <ToastContainer />
             <h1 className="mb-5 text-center ml-5 text-lg">Edit Account Details</h1>
             <Form action={''} onSubmit={onSubmit} className="flex flex-col ml-5">
                 <label htmlFor="name" className=''>Name</label>

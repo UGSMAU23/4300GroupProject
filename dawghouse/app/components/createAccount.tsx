@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { League_Spartan } from 'next/font/google';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast, ToastContainer } from 'react-toastify';
 
 const league = League_Spartan({
     weight: '400',
@@ -20,30 +21,60 @@ const CreateAccount = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         setIsLoading(true);
         event.preventDefault();
-    
-        try {
-            const response = await fetch('/api/user/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({username, email, password}),
-            });
 
-            if (!response.ok) {
-                throw new Error("Create account network response not OK");
+        const loginPromise = new Promise(async resolve => {
+            try {
+                const response = await fetch('/api/user/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, email, password }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error("Create account network response not OK");
+                }
+                setIsLoading(false);
+                resolve("success");
+            } catch (e: any) {
+                console.log(e);
+                setIsLoading(false);
+                resolve("error");
             }
-            router.replace('/login');
-        } catch (e: any) {
-            console.log(e);
-        } finally {
-            setIsLoading(false);
-        }
+        })
+
+        toast.promise(
+            loginPromise,
+            {
+                pending: {
+                    render() {
+                        return 'Creating Account..'
+                    },
+                    position: "top-center",
+                },
+                success: {
+                    render() {
+                        return "Account Created successfully! Redirecting..."
+                    },
+                    position: "top-center",
+                },
+                error: {
+                    render() {
+                        return "Error creating account. Please try again."
+                    },
+                    position: "top-center",
+                },
+            }
+        );
+        await new Promise (resolve => setTimeout(resolve, 3000));
+        router.replace('/login');
     
     }
 
     return (
         <div className="flex justify-start items-center flex-col bg-pink-50 h-screen">
+            <ToastContainer />
             <div className="flex text-5xl mt-30">
                 <h1 className={`text-black ${league.className}`}>Create Account</h1>
             </div>

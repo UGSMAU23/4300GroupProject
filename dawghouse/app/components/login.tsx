@@ -5,6 +5,7 @@ import { League_Spartan } from 'next/font/google';
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { doCredentialsLogin } from '../actions';
+import { toast, ToastContainer } from 'react-toastify';
 
 const league = League_Spartan({
     weight: '400',
@@ -19,6 +20,7 @@ const Login = () => {
     async function onSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
         setIsLoading(true);
         event.preventDefault();
+        const status = toast.loading("Logging in...", {position: "top-center"});
     
         try {
             const formData = new FormData(event.currentTarget);
@@ -26,8 +28,10 @@ const Login = () => {
             const response = await doCredentialsLogin(formData);
     
             if (response?.error) {
-                console.error(response.error);
+                toast.update(status, {render: "Error Logging In. Please try again", type: "error", isLoading: false, autoClose: 3000});
             } else {
+                toast.update(status, {render: "Successfully Logged In. Redirecting.", type: "success", isLoading: false, autoClose: 2000});
+                await new Promise(r => setTimeout(r, 2000)); 
                 router.replace("/");
             }
         } catch (e: any) {
@@ -39,12 +43,13 @@ const Login = () => {
 
     return (
         <div className="flex justify-start items-center flex-col bg-pink-50 h-screen">
+            <ToastContainer />
             <div className="flex text-5xl mt-30">
                 <h1 className={`text-black ${league.className}`}>Login</h1>
             </div>
             <div className="w-screen flex justify-center items-center px-4 md:px-0">
                 <div className="bg-white border-solid rounded-lg mt-10 mb-10 shadow-lg/50 w-[500px]">
-                    <Form onSubmit={onSubmit} className="flex flex-col m-10">
+                    <Form action={''} onSubmit={onSubmit} className="flex flex-col m-10">
                         <label htmlFor="email">Email</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="email" name="email" type="email" placeholder="Email" required/>
                         <label htmlFor="password" className="mt-3">Password</label>
