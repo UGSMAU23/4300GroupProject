@@ -70,10 +70,10 @@ const UsersDashboard = () => {
                     />
                 </div>
                 <p className="text-black font-semibold">{user.username}</p>
-                <p className="text-red-500 font-semibold">
+                <p className="text-red-800 font-semibold">
                 {Math.floor(Math.random() * 21) + 80}% Compatible
                 </p>
-                <button onClick={() => openModal(index)} className="mt-4 cursor-pointer bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+                <button onClick={() => openModal(index)} className="mt-4 cursor-pointer bg-red-800 text-white py-2 px-4 rounded hover:bg-red-800">
                 Learn More
                 </button>
             </div>

@@ -52,7 +52,7 @@ const Footer = () => {
                 <Link href="/" className="flex items-center">
                     <Image src="dog.svg" alt="DawgHouse Logo" width="0" height="0" className="w-12 h-12 mr-2" />
                     <span className="font-bold text-2xl">
-                        Dawg<span className="text-red-600">House</span>
+                        Dawg<span className="text-red-800">House</span>
                     </span>
                 </Link>
                 <div className="h-8 border-l border-gray-400"></div>

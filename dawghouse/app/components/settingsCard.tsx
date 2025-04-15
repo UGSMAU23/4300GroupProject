@@ -105,16 +105,16 @@ function SettingsCard(props: SettingsProp) {
                     <div className="flex flex-col">
                         <h1 className="text-2xl mb-10">Account Settings</h1>
                         <Link href={''} onClick={() => setSelectedComponent('appearance')}>
-                        <h3 className={selectedComponent === 'appearance' ? 'mb-2 text-red-600' : 'mb-2'}>Appearance</h3>
+                        <h3 className={selectedComponent === 'appearance' ? 'mb-2 text-red-800' : 'mb-2'}>Appearance</h3>
                         </Link>
                         <Link href={''} onClick={() => setSelectedComponent('security')}>
-                        <h3 className={selectedComponent === 'security' ? 'mb-2 text-red-600' : 'mb-2'}>Security & Privacy</h3>
+                        <h3 className={selectedComponent === 'security' ? 'mb-2 text-red-800' : 'mb-2'}>Security & Privacy</h3>
                         </Link>
                         <Link href={''} onClick={() => setSelectedComponent('questionaire')}>
-                        <h3 className={selectedComponent === 'questionaire' ? 'mb-2 text-red-600' : 'mb-2'}>My Questionnaire</h3>
+                        <h3 className={selectedComponent === 'questionaire' ? 'mb-2 text-red-800' : 'mb-2'}>My Questionnaire</h3>
                         </Link>
                         <Link href={''} onClick={() => setSelectedComponent('account')}>
-                        <h3 className={selectedComponent === 'account' ? 'mb-2 text-red-600' : 'mb-2'}>My Account</h3>
+                        <h3 className={selectedComponent === 'account' ? 'mb-2 text-red-800' : 'mb-2'}>My Account</h3>
                         </Link>
                     </div>
                     {components[selectedComponent]}

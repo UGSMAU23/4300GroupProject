@@ -84,7 +84,7 @@ const Navbar = () => {
             <Image src="dog.svg" alt="DawgHouse Logo" width="0" height="0" className="w-12 h-12 mr-2" />
             <div className="flex items-center cursor-pointer">
               <span className="font-bold text-3xl">
-                Dawg<span className="text-red-600">House</span>
+                Dawg<span className="text-red-800">House</span>
               </span>
             </div>
           </Link>
@@ -92,14 +92,14 @@ const Navbar = () => {
         {/* Screen sizes > 640px */}
         <div className="hidden sm:flex items-center space-x-10">
           <Link href="/#about" onClick={(e) => handleScrollClick(e, 'about')} >
-            <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">About</span>
+            <span className="cursor-pointer hover:text-red-800 transition-colors font-bold">About</span>
           </Link>
           <Link href="/#contact" onClick={(e) => handleScrollClick(e, 'contact')}>
-            <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">Contact</span>
+            <span className="cursor-pointer hover:text-red-800 transition-colors font-bold">Contact</span>
           </Link>
 
           <div className="relative" ref={dropdownRef}>
-            <button onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center cursor-pointer gap-1 font-semibold hover:text-red-600 transition-colors">
+            <button onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center cursor-pointer gap-1 font-semibold hover:text-red-800 transition-colors">
               Account <ChevronDown size={18} />
             </button>
 
@@ -160,7 +160,7 @@ const Navbar = () => {
           <Image src="dog.svg" alt="DawgHouse Logo" width="0" height="0" className="w-12 h-12 mr-2" />
           <div className="flex items-center cursor-pointer">
             <span className="font-bold text-3xl">
-              Dawg<span className="text-red-600">House</span>
+              Dawg<span className="text-red-800">House</span>
             </span>
           </div>
         </Link>
@@ -168,14 +168,14 @@ const Navbar = () => {
       {/* Screen sizes > 640px */}
       <div className="hidden sm:flex items-center space-x-10">
         <Link href="/#about" onClick={(e) => handleScrollClick(e, 'about')} >
-          <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">About</span>
+          <span className="cursor-pointer hover:text-red-800 transition-colors font-bold">About</span>
         </Link>
         <Link href="/#contact" onClick={(e) => handleScrollClick(e, 'contact')}>
-          <span className="cursor-pointer hover:text-red-600 transition-colors font-bold">Contact</span>
+          <span className="cursor-pointer hover:text-red-800 transition-colors font-bold">Contact</span>
         </Link>
-        <Link href="/login" className="cursor-pointer hover:text-red-600 transition-colors font-bold">Log In</Link>
+        <Link href="/login" className="cursor-pointer hover:text-red-800 transition-colors font-bold">Log In</Link>
         <Link href="/signup">
-          <button className="bg-red-600 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-700 font-semi-bold">Join Now</button>
+          <button className="bg-red-800 text-white px-4 py-2 rounded cursor-pointer hover:bg-red-800 font-semi-bold">Join Now</button>
         </Link>
       </div>
 

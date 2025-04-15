@@ -30,7 +30,7 @@ const Splash = () => {
             <h1 className="text-3xl md:text-5xl font-bold text-gray-900 md:mb-4">
               Find The Perfect
             </h1>
-            <h1 className="text-3xl md:text-5xl font-bold text-red-700 mb-4">
+            <h1 className="text-3xl md:text-5xl font-bold text-red-800 mb-4">
               Athens Roommate
             </h1>
             <p className="text-gray-700 text-lg mb-10">
@@ -40,13 +40,13 @@ const Splash = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={handleLearnMoreClick}
-                className="bg-white hover:bg-gray-100 cursor-pointer text-red-700 border border-red-700 px-6 py-3 rounded-lg font-medium transition-all"
+                className="bg-white hover:bg-gray-100 cursor-pointer text-red-800 border border-red-800 px-6 py-3 rounded-lg font-medium transition-all"
               >
                 Learn More
               </button>
               <button
                 onClick={handleJoinNowClick}
-                className="bg-red-700 hover:bg-red-800 cursor-pointer text-white px-6 py-3 rounded-lg font-medium shadow-lg transition-all"
+                className="bg-red-800 hover:bg-red-800 cursor-pointer text-white px-6 py-3 rounded-lg font-medium shadow-lg transition-all"
               >
                 Join Now
               </button>

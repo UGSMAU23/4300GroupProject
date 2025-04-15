@@ -23,7 +23,7 @@ const DawgHouse = () => {
             {/* Title */}
             <div className="flex text-3xl md:text-5xl text-center">
                 <h1 className="text-black">What is </h1>
-                <h1 className="text-red-600 ml-2">DawgHouse</h1>
+                <h1 className="text-red-800 ml-2">DawgHouse</h1>
                 <h1 className="text-black ml-2">?</h1>
             </div>
 
@@ -39,8 +39,8 @@ const DawgHouse = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-20 mt-10 w-full max-w-6xl">
                 {/* Card 1: UGA Login */}
                 <div className="bg-white shadow-lg rounded-2xl p-6 border-t-4 border-red-400 hover:scale-[1.02] transition-transform flex flex-col items-center text-center">
-                    <MailCheck className="w-10 h-10 text-red-600 mb-4" />
-                    <h2 className="text-xl font-semibold mb-2 text-red-600">UGA Login</h2>
+                    <MailCheck className="w-10 h-10 text-red-800 mb-4" />
+                    <h2 className="text-xl font-semibold mb-2 text-red-800">UGA Login</h2>
                     <p className="text-gray-700">
                         Sign up and log in using your UGA email to verify you're a student. This keeps the community secure and ensures you're only matched with other UGA students.
                     </p>
@@ -48,8 +48,8 @@ const DawgHouse = () => {
 
                 {/* Card 2: Questionnaire */}
                 <div className="bg-white shadow-lg rounded-2xl p-6 border-t-4 border-red-400 hover:scale-[1.02] transition-transform flex flex-col items-center text-center">
-                    <ClipboardList className="w-10 h-10 text-red-600 mb-4" />
-                    <h2 className="text-xl font-semibold mb-2 text-red-600">Roommate Questionnaire</h2>
+                    <ClipboardList className="w-10 h-10 text-red-800 mb-4" />
+                    <h2 className="text-xl font-semibold mb-2 text-red-800">Roommate Questionnaire</h2>
                     <p className="text-gray-700">
                         New users complete a short, descriptive survey about their lifestyle and preferences to help find the most compatible roommate matches.
                     </p>
@@ -57,8 +57,8 @@ const DawgHouse = () => {
 
                 {/* Card 3: Dashboard */}
                 <div className="bg-white shadow-lg rounded-2xl p-6 border-t-4 border-red-400 hover:scale-[1.02] transition-transform flex flex-col items-center text-center">
-                    <Users className="w-10 h-10 text-red-600 mb-4" />
-                    <h2 className="text-xl font-semibold mb-2 text-red-600">Dashboard & Matching</h2>
+                    <Users className="w-10 h-10 text-red-800 mb-4" />
+                    <h2 className="text-xl font-semibold mb-2 text-red-800">Dashboard & Matching</h2>
                     <p className="text-gray-700">
                         Once the questionnaire is complete, you'll get a personalized dashboard showing top roommate matches. View their profiles and reach out when you're ready.
                     </p>
@@ -68,7 +68,7 @@ const DawgHouse = () => {
             {/* CTA */}
             <div className="mt-12 pb-8 text-lg text-center">
                 <p>
-                    Ready to find your perfect roommate? <a onClick={handleGetStartedClick} className="text-red-600 cursor-pointer font-semibold hover:underline">Get started here</a>.
+                    Ready to find your perfect roommate? <a onClick={handleGetStartedClick} className="text-red-800 cursor-pointer font-semibold hover:underline">Get started here</a>.
                 </p>
             </div>
         </div>
