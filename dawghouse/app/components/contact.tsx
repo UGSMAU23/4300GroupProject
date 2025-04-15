@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Contact = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    const loadToast = toast.loading("Please Wait...", {position: 'top-center', progress: 0});
     e.preventDefault();
 
     const form = e.currentTarget;
@@ -27,12 +30,14 @@ const Contact = () => {
 
       if (res.ok) {
         console.log('Success:', data.message);
+        toast.update(loadToast, {render: "Form Submission Sent!", type: "success", isLoading: false, autoClose: 3000, hideProgressBar: true, progress: null})
         form.reset(); // clear form
       } else {
-        console.error('Error:', data.error);
+        toast.update(loadToast, {render: "Error with form submission. Please try again", type: "error", isLoading: false, autoClose: 3000})
+        console.log('Error:', data.error);
       }
     } catch (err) {
-      console.error('Submission failed:', err);
+      console.log('Submission failed:', err);
     } finally {
       setIsSubmitting(false);
     }
@@ -40,6 +45,7 @@ const Contact = () => {
 
     return (
         <div className="flex justify-center items-center flex-col bg-white px-4 md:px-0" >
+            <ToastContainer />
             <div className="flex text-3xl md:text-5xl mt-10">
                 <h1 className="text-black">Contact Us</h1>
             </div>
