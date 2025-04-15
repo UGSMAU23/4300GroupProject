@@ -1,7 +1,7 @@
 export interface Question {
     question?: string;
     questions?: string;
-    type: 'pick-one' | 'pick-multiple' | 'free-number';
+    type: 'pick-one' | 'pick-multiple' | 'free-number' | 'free-text';
     answers?: string[];
     min?: number;
     max?: number;
@@ -129,6 +129,21 @@ const questions: Question[] = [
             "Chores are shared",
             "Using my things without asking"
         ]
+    },
+    {
+        question: "I would like potential roommates to contact me via:",
+        type: "pick-multiple",
+        min: 1,
+        max: 2,
+        answers: ["Phone", "Email"]
+    },
+    {
+        question: "Phone Number (if selected above):",
+        type: "free-number",
+    },
+    {
+        question: "Email (if selected above):",
+        type: "free-text",
     }
 ];
 

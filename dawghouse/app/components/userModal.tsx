@@ -3,6 +3,7 @@ interface UserModalProps {
   user: {
     username: string;
     description?: string;
+    answers?: string[];
     // add more fields later like contact, email
   } | null;
   compatibility: number | null;
@@ -11,6 +12,25 @@ interface UserModalProps {
 
 const UserModal: React.FC<UserModalProps> = ({ isOpen, user, compatibility, onClose }) => {
   if (!isOpen || !user) return null;
+
+  const extractAnswer = (labelStart: string): string | null => {
+    const raw = user.answers?.find(ans => ans.startsWith(labelStart));
+    if (!raw) return null;
+    const value = raw.split(":").slice(1).join(":").trim(); // handles colon in value
+    return value === "No answer" ? null : value;
+  };
+
+  const phonePreferred = user.answers?.some(answer =>
+    answer.includes("I would like potential roommates to contact me via:") && answer.includes("Phone")
+  );
+
+  const emailPreferred = user.answers?.some(answer =>
+    answer.includes("I would like potential roommates to contact me via:") && answer.includes("Email")
+  );
+
+  const phone = extractAnswer("Phone Number (if selected above):");
+  console.log(phone);
+  const email = extractAnswer("Email (if selected above):");
 
   return (
     <>
@@ -37,15 +57,23 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, user, compatibility, onCl
         <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
           {user.description || "This user does not have a description yet."}
         </p>
-        {/* Later we are going to pull contact info from their form preferences. */}
-        <div className="mt-4">
-          <p className="text-sm text-gray-700">
-            <strong>Contact:</strong> Placeholder Phone
-          </p>
-          <p className="text-sm text-gray-700">
-            <strong>Email:</strong> Placeholder Email
-          </p>
-        </div>
+        {(phonePreferred || emailPreferred) && (
+          <div className="mt-4">
+            <p className="text-sm text-gray-500 mb-2">
+              Get in touch with {user.username}:
+            </p>
+            {phonePreferred && (
+              <p className="text-sm text-gray-700">
+                <strong>Phone:</strong> {phone}
+              </p>
+            )}
+            {emailPreferred && (
+              <p className="text-sm text-gray-700">
+                <strong>Email:</strong> {email}
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

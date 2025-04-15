@@ -13,7 +13,7 @@ const league = League_Spartan({
 interface Question {
     question?: string;
     questions?: string;
-    type: 'pick-one' | 'pick-multiple' | 'free-number';
+    type: 'pick-one' | 'pick-multiple' | 'free-number' | 'free-text';
     answers?: string[];
     min?: number;
     max?: number;
@@ -117,6 +117,20 @@ const Form = () => {
               <label className="block font-medium mb-2 text-gray-900">{label}</label>
               <input
                 type="number"
+                name={`question-${index}`}
+                className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
+                onChange={(e) => handleChange(index, e.target.value)}
+              />
+            </div>
+          );
+        }
+
+        if (q.type === 'free-text') {
+          return (
+            <div key={index} className="mb-8">
+              <label className="block font-medium mb-2 text-gray-900">{label}</label>
+              <input
+                type="text"
                 name={`question-${index}`}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
                 onChange={(e) => handleChange(index, e.target.value)}

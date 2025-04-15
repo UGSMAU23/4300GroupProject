@@ -9,6 +9,7 @@ interface User {
     username: string;
     hashEmail: string;
     description?: string;
+    answers?: string[];
     // can add other fields later.
 }
 
