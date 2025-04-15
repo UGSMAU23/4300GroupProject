@@ -64,6 +64,16 @@ const Form = () => {
             return `${label}: ${response || "No answer"}`;
           });
           console.log("Submitting answers:", answersArray);
+
+          const excludedLabels = [
+            "I would like potential roommates to contact me via",
+            "Phone Number (if selected above)",
+            "Email (if selected above)"
+          ];
+
+          const filteredAnswersArray = answersArray.filter(answer => {
+            return !excludedLabels.some(label => answer.startsWith(label));
+          });
     
           // Submit answers to /api/user/[id]
           const updateRes = await fetch(`/api/user/${userId}`, {
@@ -78,7 +88,7 @@ const Form = () => {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                prompt: `The following are survey answers from a college student filling out a roommate compatibility form. Write a short paragraph (3-4 sentences) that summarizes their lifestyle, habits, and roommate preferences in a friendly tone:\n\n${answersArray.join(', ')}`
+                prompt: `The following are survey answers from a college student filling out a roommate compatibility form. Write a short paragraph (3-4 sentences) that summarizes their lifestyle, habits, and roommate preferences in a friendly tone starting with "This student...". :\n\n${filteredAnswersArray.join(', ')}`
               })
             });
             
