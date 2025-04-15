@@ -4,6 +4,7 @@ import { League_Spartan } from 'next/font/google';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import questionsData from '@/app/questions';
+import { toast, ToastContainer } from 'react-toastify';
 
 const league = League_Spartan({
     weight: '400',
@@ -36,20 +37,24 @@ const Form = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const loadToast = toast.loading("Generating Your Profile", {position: 'top-center', progress: 0});
     
         if (!session?.user?.email) {
           console.error("User session or email not available");
+          toast.update(loadToast, {render: "Error with user session. Please try again", type: "error", isLoading: false, autoClose: 3000})
           return;
         }
     
         try {
           // Get user by email to retrieve MongoDB _id
+          toast.update(loadToast, {render: "Retrieving Your Data", progress: .25});
           const resUser = await fetch(`/api?email=${session.user.email}`);
           const userData = await resUser.json();
           const userId = userData.user?._id;
     
           if (!userId) {
             console.error("User ID not found");
+            toast.update(loadToast, {render: "User ID Not Found. Please try again", type: "error", isLoading: false, autoClose: 3000})
             return;
           }
           const answersArray = questions.map((q, index) => {
@@ -64,6 +69,7 @@ const Form = () => {
             return `${label}: ${response || "No answer"}`;
           });
           console.log("Submitting answers:", answersArray);
+          toast.update(loadToast, {render: "Submitting Answers to Database", progress: .5});
 
           const excludedLabels = [
             "I would like potential roommates to contact me via",
@@ -83,7 +89,7 @@ const Form = () => {
           });
     
           if (updateRes.ok) {
-
+            toast.update(loadToast, {render: "Generating Summary", progress: .75});
             const gptResponse = await fetch('/api/generate', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -95,24 +101,30 @@ const Form = () => {
             const { result: generatedDescription } = await gptResponse.json();
             console.log("GPT Description: ", generatedDescription);
 
+            toast.update(loadToast, {render: "Saving Summary to Database", progress: .9});
             const updateDescription = await fetch(`/api/user/${userId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ description: generatedDescription })
             });
+
             
             if (updateDescription.ok) {
               console.log("Updated the description for a user.");
+              toast.update(loadToast, {render: "Profile Generated Successfully", type: "success", isLoading: false, autoClose: 2000, progress: null})
             } else {
               console.log("Failed to update user description.");
+              toast.update(loadToast, {render: "Failed to Generate User Profile", type: "error", isLoading: false, autoClose: 3000})
             }
-
+            await new Promise(r => setTimeout(r, 2000));
             router.push('/matches');
           } else {
             console.error("Failed to submit answers");
+            toast.update(loadToast, {render: "Failed to submit answers. Please try again", type: "error", isLoading: false, autoClose: 3000})
           }
         } catch (err) {
           console.error("Error submitting form:", err);
+          toast.update(loadToast, {render: "Error submitting form.", type: "error", isLoading: false, autoClose: 3000})
         }
       };
     
@@ -239,6 +251,7 @@ const Form = () => {
     
       return (
         <div className="w-full min-h-screen">
+          <ToastContainer />
           <div className="bg-white w-full py-10 px-4 flex justify-center items-center">
             <h1 className="text-3xl md:text-5xl text-center text-black max-w-4xl">
               Complete the following housing survey to calculate your compatible roommates!
