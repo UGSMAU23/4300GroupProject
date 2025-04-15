@@ -49,7 +49,7 @@ function SettingsCard(props: SettingsProp) {
         'account': <Account accountName={props.accountName} email={props.email} />
     }
 
-    const [selectedComponent, setSelectedComponent] = useState('security');
+    const [selectedComponent, setSelectedComponent] = useState('appearance');
 
     let accountName = props.accountName;
     useEffect(() => {

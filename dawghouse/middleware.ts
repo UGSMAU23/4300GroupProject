@@ -8,16 +8,21 @@ const middleware = async (request: NextRequest) => {
     const {pathname} = request.nextUrl;
     const session = await auth();
     const isAuthenticated = !!session?.user;
-    console.log(isAuthenticated, pathname);
+    
+    // Debug
+    //console.log(isAuthenticated, pathname);
 
-    const publicPaths = ["/", "/login", "/signup", "/_next"];
+    const protectedPaths = ["/settings", "/quiz", "/matches"];
 
-    // if (!isAuthenticated && !publicPaths.includes(pathname)) {
-    //     return NextResponse.redirect(new URL("/", request.url));
-    // }
+    if (!isAuthenticated && protectedPaths.includes(pathname)) {
+        return NextResponse.redirect(new URL("/login", request.url));
+    }
 
     return NextResponse.next();
 }
 
+export const config = {
+    matcher: ['/settings/:path*', '/quiz/:path*', '/matches/:path*']
+};
 
 export default middleware;
