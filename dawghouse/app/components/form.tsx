@@ -228,55 +228,57 @@ const Form = () => {
 
           // Submit scores
           toast.update(loadToast, {render: "Submitting Score", progress: .625});
-          const scores = calculateScores();
-          console.log("Scores:", scores);
+          const scoresArr = calculateScores();
+          console.log("Scores:", scoresArr);
 
-          await fetch(`/api/user/${userId}`, {
+          const scoringWait = await fetch(`/api/user/${userId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ scores })
+            body: JSON.stringify({ scores: scoresArr })
           });
-    
-          // Submit answers to /api/user/[id]
-          const updateRes = await fetch(`/api/user/${userId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers: answersArray })
-          });
-    
-          if (updateRes.ok) {
-            toast.update(loadToast, {render: "Generating Summary", progress: .75});
-            const gptResponse = await fetch('/api/generate', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                prompt: `The following are survey answers from a college student filling out a roommate compatibility form. Write a short paragraph (3-4 sentences) that summarizes their lifestyle, habits, and roommate preferences in a friendly tone starting with "This student...". :\n\n${filteredAnswersArray.join(', ')}`
-              })
-            });
-            
-            const { result: generatedDescription } = await gptResponse.json();
-            console.log("GPT Description: ", generatedDescription);
 
-            toast.update(loadToast, {render: "Saving Summary to Database", progress: .9});
-            const updateDescription = await fetch(`/api/user/${userId}`, {
+          if (scoringWait.ok) {
+            // Submit answers to /api/user/[id]
+            const updateRes = await fetch(`/api/user/${userId}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ description: generatedDescription })
+              body: JSON.stringify({ answers: answersArray })
             });
+      
+            if (updateRes.ok) {
+              toast.update(loadToast, {render: "Generating Summary", progress: .75});
+              const gptResponse = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  prompt: `The following are survey answers from a college student filling out a roommate compatibility form. Write a short paragraph (3-4 sentences) that summarizes their lifestyle, habits, and roommate preferences in a friendly tone starting with "This student...". :\n\n${filteredAnswersArray.join(', ')}`
+                })
+              });
+              
+              const { result: generatedDescription } = await gptResponse.json();
+              console.log("GPT Description: ", generatedDescription);
 
-            
-            if (updateDescription.ok) {
-              console.log("Updated the description for a user.");
-              toast.update(loadToast, {render: "Profile Generated Successfully", type: "success", isLoading: false, autoClose: 2000, progress: null})
+              toast.update(loadToast, {render: "Saving Summary to Database", progress: .9});
+              const updateDescription = await fetch(`/api/user/${userId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ description: generatedDescription })
+              });
+
+              
+              if (updateDescription.ok) {
+                console.log("Updated the description for a user.");
+                toast.update(loadToast, {render: "Profile Generated Successfully", type: "success", isLoading: false, autoClose: 2000, progress: null})
+              } else {
+                console.log("Failed to update user description.");
+                toast.update(loadToast, {render: "Failed to Generate User Profile", type: "error", isLoading: false, autoClose: 3000})
+              }
+              await new Promise(r => setTimeout(r, 2000));
+              router.push('/matches');
             } else {
-              console.log("Failed to update user description.");
-              toast.update(loadToast, {render: "Failed to Generate User Profile", type: "error", isLoading: false, autoClose: 3000})
+              console.error("Failed to submit answers");
+              toast.update(loadToast, {render: "Failed to submit answers. Please try again", type: "error", isLoading: false, autoClose: 3000})
             }
-            await new Promise(r => setTimeout(r, 2000));
-            router.push('/matches');
-          } else {
-            console.error("Failed to submit answers");
-            toast.update(loadToast, {render: "Failed to submit answers. Please try again", type: "error", isLoading: false, autoClose: 3000})
           }
         } catch (err) {
           console.error("Error submitting form:", err);
