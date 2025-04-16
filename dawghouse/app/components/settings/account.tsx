@@ -3,6 +3,7 @@ import { SettingsProp } from "../settingsCard";
 import Form from "next/form";
 import { useState } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import { signOut } from "next-auth/react";
 
 function Account(props: SettingsProp) {
     const [username, setUsername] = useState(props.accountName);
@@ -23,13 +24,22 @@ function Account(props: SettingsProp) {
         console.log("ID: ", idResponse.user._id);
         const id = idResponse.user._id;
         console.log(idResponse);
+        let body = null;
+
+        if (currentPassword == '' || newPassword == '') {
+            console.log("true");
+            body = {username: username, email: email};
+        } else {
+            console.log("false");
+            body = {username: username, email: email, currentPassword: currentPassword, newPassword: newPassword};
+        }
 
         const updateRequest = await fetch(`/api/user/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({username: username, email: email, currentPassword: currentPassword, newPassword: newPassword})
+            body: JSON.stringify(body)
         });
 
         const updateResponse = await updateRequest.json();
@@ -39,7 +49,7 @@ function Account(props: SettingsProp) {
         setNewPassword('');
 
         toast.update(loadingToast, {
-            render: "Account Details Updated",
+            render: "Account Details Updated.",
             type: "success",
             isLoading: false,
             autoClose: 3000,
@@ -47,9 +57,12 @@ function Account(props: SettingsProp) {
             closeOnClick: false,
             pauseOnHover: false,
             draggable: true,
-            theme: "colored",
+            theme: "light",
             transition: Bounce,
         });
+        toast('Please sign in again.', {type: "warning", autoClose: 3000, position: 'top-center'});
+        await new Promise(r => setTimeout(r, 3000));
+        await signOut();
     }
 
     return (
@@ -58,9 +71,9 @@ function Account(props: SettingsProp) {
             <h1 className="mb-5 text-center ml-5 text-lg">Edit Account Details</h1>
             <Form action={''} onSubmit={onSubmit} className="flex flex-col ml-5">
                 <label htmlFor="name" className=''>Name</label>
-                <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='name' name='name' value={`${props.accountName}`} onChange={(e) => setUsername(e.target.value)}></input>
+                <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='name' name='name' defaultValue={`${props.accountName}`} onChange={(e) => setUsername(e.target.value)}></input>
                 <label htmlFor="email" className='mt-2'>Email</label>
-                <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='email' name='email' value={`${props.email}`} onChange={(e) => setEmail(e.target.value)}></input>
+                <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='email' name='email' defaultValue={`${props.email}`} onChange={(e) => setEmail(e.target.value)}></input>
                 <h1 className="mt-5 mb-5 text-center text-lg">Change Password: </h1>
                 <label htmlFor="currentPassword" className='mt-2'>Current Password</label>
                 <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='currentPassword' name='currentPassword' type='password' onChange={(e) => setCurrentPassword(e.target.value)}></input>
