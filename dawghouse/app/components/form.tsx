@@ -51,7 +51,7 @@ const Form = () => {
           savedAnswers.forEach((entry: string, index: number) => {
             const [label, ...rest] = entry.split(": ");
             const answerText = rest.join(": ").trim();
-    
+            if (answerText === "No answer") return;
             const question = questionsData[index];
     
             if (question?.type === 'pick-multiple') {
