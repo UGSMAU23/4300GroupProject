@@ -15,6 +15,7 @@ import {
   Settings as SettingsIcon,
   LogOut,
   LogIn,
+  Users,
   UserPlus
 } from 'lucide-react';
 
@@ -38,6 +39,12 @@ const Navbar = () => {
     } else {
       router.push('/');
     }
+  };
+
+  const handleLoggedInLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    router.push('/matches');
+    
   };
 
   const handleScrollClick = (e: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -80,7 +87,7 @@ const Navbar = () => {
 
       <nav className="flex justify-between items-center p-4 bg-white sticky top-0 z-10">
         <div className="flex items-center">
-        <Link href="/" passHref onClick={handleLogoClick} className="flex items-center">
+        <Link href="/matches" passHref onClick={handleLoggedInLogoClick} className="flex items-center">
             <Image src="dog.svg" alt="DawgHouse Logo" width="0" height="0" className="w-12 h-12 mr-2" />
             <div className="flex items-center cursor-pointer">
               <span className="font-bold text-3xl">
@@ -108,6 +115,9 @@ const Navbar = () => {
                 <Link href="/quiz" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                 <ClipboardList size={16} /> Questionnaire
                 </Link>
+                <Link href="/matches" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+                <Users size={16} /> Matches
+                </Link>
                 <Link href="/settings" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                 <SettingsIcon size={16} /> Settings
                 </Link>
@@ -134,6 +144,9 @@ const Navbar = () => {
               </Link>
               <Link href="/quiz" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
               <ClipboardList size={16} /> Questionnaire
+              </Link>
+              <Link href="/matches" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+              <Users size={16} /> Matches
               </Link>
               <Link href="/settings" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
               <SettingsIcon size={16} /> Settings

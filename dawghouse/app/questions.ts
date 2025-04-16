@@ -35,8 +35,8 @@ const questions: Question[] = [
     {
         question: "I prefer to live in the following neighborhoods:",
         type: "pick-multiple",
-        max: 4,
-        answers: ["Five Points", "Pulaski Heights", "Macon Highway", "North Ave"]
+        max: 7,
+        answers: ["Five Points", "Downtown", "Pulaski Heights", "Barnett Shoals", "Macon Highway", "North Ave", "No preference"]
     },
     {
         question: "I would describe myself as:",
