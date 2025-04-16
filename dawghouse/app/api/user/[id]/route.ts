@@ -19,7 +19,10 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
     if (answers) update.answers = answers;
     if (currentPassword && newPassword) {
         const user = await User.findById(id);
-        const matches = await bcrypt.compare(currentPassword, user.get('password'));
+        if (!user) {
+            return NextResponse.json({ message: "User not found" }, { status: 404 });
+        }
+        const matches = await bcrypt.compare(currentPassword, user.get('password').toString());
         if (matches) {
             const hashedPassword = await bcrypt.hash(newPassword, 15);
             update.password = hashedPassword;
