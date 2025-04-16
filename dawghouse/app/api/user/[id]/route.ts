@@ -10,7 +10,7 @@ interface RouteParams {
 
 export async function PUT(request: NextRequest, {params}:RouteParams) {
     const { id } = await params;
-    const { username, email, answers, currentPassword, newPassword, description } = await request.json();
+    const { username, email, answers, currentPassword, newPassword, description, scores } = await request.json();
     await connectMongoDB();
     const update: any = {};
 
@@ -29,6 +29,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
         }
     }
     if (description) update.description = description;
+    if (scores) update.scores = scores;
     
     await User.findByIdAndUpdate(id, update);
     return NextResponse.json({message: "User updated"}, {status: 200});
