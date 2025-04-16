@@ -54,8 +54,8 @@ const Login = () => {
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="email" name="email" type="email" placeholder="Email" required/>
                         <label htmlFor="password" className="mt-3">Password</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="password" name="password" type="password" placeholder="Password" required/>
-                        <div className="bg-red-800 rounded-md flex justify-center items-center mt-5 shadow-md">
-                            <button className="text-white grow" value="Login" type='submit' disabled={isLoading}>
+                        <div className="bg-red-800 hover:bg-red-900 rounded-md flex justify-center items-center mt-5 shadow-md">
+                            <button className="text-white grow cursor-pointer" value="Login" type='submit' disabled={isLoading}>
                                 {isLoading ? "Loading..." : "Login"}
                             </button>
                         </div>

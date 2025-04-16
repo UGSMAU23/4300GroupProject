@@ -87,8 +87,8 @@ const CreateAccount = () => {
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="email" name="email" type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" required/>
                         <label htmlFor="password" className="mt-3">Password</label>
                         <input className="border border-gray-400 rounded-sm px-2 mt-1 shadow-md" id="password" name="password" type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required/>
-                        <div className="bg-red-800 rounded-md flex justify-center items-center mt-5 shadow-md">
-                            <button className="text-white grow" value="Login" type='submit' disabled={isLoading}>
+                        <div className="bg-red-800 hover:bg-red-900 rounded-md flex justify-center items-center mt-5 shadow-md">
+                            <button className="text-white cursor-pointer grow" value="Login" type='submit' disabled={isLoading}>
                                 {isLoading ? "Loading..." : "Create Account"}
                             </button>
                         </div>

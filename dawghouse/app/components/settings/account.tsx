@@ -60,7 +60,7 @@ function Account(props: SettingsProp) {
                 <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='currentPassword' name='currentPassword' type='password' onChange={(e) => setCurrentPassword(e.target.value)}></input>
                 <label htmlFor="newPassword" className='mt-2'>New Password</label>
                 <input className='border-solid border-gray-400 border-1 rounded-lg px-2 w-60 mt-2' id='newPassword' name='newPassword' type="password" onChange={(e) => setNewPassword(e.target.value)}></input>
-                <input className="bg-red-800 text-white mt-5 rounded-lg" id="submit" name="submit" value={"Update Account"} type="submit"></input>
+                <input className="bg-red-800 hover:bg-red-900 cursor-pointer text-white mt-5 rounded-lg" id="submit" name="submit" value={"Update Account"} type="submit"></input>
             </Form>
         </div>
     )

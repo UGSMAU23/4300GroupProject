@@ -58,7 +58,7 @@ const Contact = () => {
                         <input className='border-solid border-gray-400 border-1 rounded-lg px-2' id='email' name='email' type='email' required></input>
                         <label htmlFor="message" className='mt-3' >Message</label>
                         <textarea className='h-25 md:w-100 border-solid border-gray-400 border-1 rounded-lg px-1 pt-1' id='message' name='message' required></textarea>
-                        <div className='bg-red-800 flex justify-center items-center mt-5 border-solid border-black border-1 cursor-pointer rounded-md'>
+                        <div className='bg-red-800 hover:bg-red-900 flex justify-center items-center mt-5 border-solid border-black border-1 cursor-pointer rounded-md'>
                             <input className='text-white cursor-pointer' type='submit' id='submit' value='Submit'></input>
                         </div>
                     </form>

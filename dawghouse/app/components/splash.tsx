@@ -46,7 +46,7 @@ const Splash = () => {
               </button>
               <button
                 onClick={handleJoinNowClick}
-                className="bg-red-800 hover:bg-red-800 cursor-pointer text-white px-6 py-3 rounded-lg font-medium shadow-lg transition-all"
+                className="bg-red-800 hover:bg-red-900 cursor-pointer text-white px-6 py-3 rounded-lg font-medium shadow-lg transition-all"
               >
                 Join Now
               </button>
