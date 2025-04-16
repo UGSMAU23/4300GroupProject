@@ -11,6 +11,11 @@ function Account(props: SettingsProp) {
     const [newPassword, setNewPassword] = useState('');
     
     async function onSubmit() {
+
+        const loadingToast = toast.loading("Updating account...", {
+            position: "top-center",
+        });
+        
         const idRequest = await fetch(`/api?email=${email}`, {
             method: "GET",
         })
@@ -33,14 +38,15 @@ function Account(props: SettingsProp) {
         setCurrentPassword('');
         setNewPassword('');
 
-        toast.success('Account Details Updated', {
-            position: "top-center",
-            autoClose: 5000,
+        toast.update(loadingToast, {
+            render: "Account Details Updated",
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: false,
-            pauseOnHover: true,
+            pauseOnHover: false,
             draggable: true,
-            progress: undefined,
             theme: "colored",
             transition: Bounce,
         });
