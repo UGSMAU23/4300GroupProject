@@ -74,6 +74,112 @@ const Form = () => {
         setResponses((prev) => ({ ...prev, [index]: value }));
     };
 
+    const calculateScores = () => {
+      const get = (i: number) => responses[i] as string;
+    
+      let personality = 50; // 0 - Shy, 100 - Active
+      let gender = 0;
+      let living = 50; // 0 - Messy and crowded, 100 - Clean and quiet
+      let substances = 100; // 0 - No substances, 100 - Substances
+
+      // Gender
+      const myGen = get(0);
+      if (myGen.includes("Male")) gender = -50;
+      else if (myGen.includes("Other")) gender = 0;
+      else gender = 50;
+
+      const otherGen = get(2);
+      if (otherGen.includes("Opposite")) gender *= 0.2;
+      
+      gender += 50;
+
+      // Living
+      const cleanliness = get(4);
+      if (cleanliness.includes("very clean")) living += 40;
+      else if (cleanliness.includes("mostly clean")) living += 20;
+      else if (cleanliness.includes("messy")) living -= 30;
+
+      const myCrowd = get(15);
+      if (myCrowd.includes("Never")) living += 20;
+      else if (myCrowd.includes("Rarely")) living += 12;
+      else if (myCrowd.includes("Sometimes")) living += 5;
+      else if (myCrowd.includes("Often")) living -= 5;
+      else living -= 12;
+
+      const otherCrowd = get(16);
+      if (otherCrowd.includes("Never")) living += 12;
+      else if (otherCrowd.includes("Rarely")) living += 4;
+      else if (otherCrowd.includes("Sometimes")) living += 0;
+      else if (otherCrowd.includes("Often")) living -= 10;
+      else living -= 15;
+
+      // Personality
+      const timePerson = get(17);
+      if (timePerson.includes("morning")) personality -= 25;
+      else if (timePerson.includes("night")) personality += 18;
+      else personality += 8;
+
+      const meShy = get(6);
+      if (meShy.includes("Fairly Shy")) personality -= 38;
+      else if (meShy.includes("Fairly Outgoing")) personality += 10;
+      else if (meShy.includes("Shy")) personality -= 55;
+      else if (meShy.includes("Outgoing")) personality += 25;
+
+      const otherShy = get(7);
+      if (otherShy.includes("Fairly Shy")) personality -= 14;
+      else if (otherShy.includes("Fairly Outgoing")) personality += 14;
+      else if (otherShy.includes("Shy")) personality -= 20;
+      else if (otherShy.includes("Outgoing")) personality += 20;
+
+      const meAtHome = get(8);
+      if (meAtHome.includes("majority")) personality += 10;
+      else if (meAtHome.includes("gone")) personality -= 2;
+      else personality -= 12;
+
+      const otherAtHome = get(9);
+      if (otherAtHome.includes("majority")) personality += 15;
+      else if (otherAtHome.includes("Gone")) personality -= 4;
+      else if (otherAtHome.includes("Hardly")) personality -= 14;
+
+      const friendly = get(10);
+      if (friendly.includes("good")) personality += 12;
+      else if (friendly.includes("peacefully")) personality += 5;
+      else personality -= 8;
+
+      // Substances
+      const myAlcUse = get(11);
+      if (myAlcUse.includes("Never")) substances -= 30;
+      else if ((myAlcUse).includes("Rarely")) substances -= 20;
+      else if ((myAlcUse).includes("Sometimes")) substances -= 10;
+      else if ((myAlcUse).includes("Often")) substances -= 2;
+
+      const otherAlcUse = get(12);
+      if ((otherAlcUse).includes("Yes")) substances -= 50;
+      else if ((otherAlcUse).includes("regular")) substances -= 20;
+      else substances += 10;
+
+      const mySmoke = get(13);
+      if ((mySmoke).includes("Yes")) substances += 10;
+      else substances -= 20;
+
+      const otherSmoke = get(14);
+      if ((otherSmoke).includes("Yes")) substances -= 35;
+      else substances += 5;
+    
+      const clamp = (v: number) => Math.max(0, Math.min(100, v));
+    
+      return {
+        personality: clamp(personality),
+        living: clamp(living),
+        substances: clamp(substances),
+        gender: clamp(gender),
+        age: parseInt(responses[1] as string) || 20,
+        locations: responses[5] as string[] || []
+      };
+      // Compare values using cosine vector similarity https://www.geeksforgeeks.org/cosine-similarity/
+      // Tether final score to locations arr similarity
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const loadToast = toast.loading("Generating Your Profile", {position: 'top-center', progress: 0});
@@ -118,6 +224,17 @@ const Form = () => {
 
           const filteredAnswersArray = answersArray.filter(answer => {
             return !excludedLabels.some(label => answer.startsWith(label));
+          });
+
+          // Submit scores
+          toast.update(loadToast, {render: "Generating Summary", progress: .625});
+          const scores = calculateScores();
+          console.log("Scores:", scores);
+
+          await fetch(`/api/user/${userId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ scores })
           });
     
           // Submit answers to /api/user/[id]
