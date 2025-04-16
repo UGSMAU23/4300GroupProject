@@ -46,7 +46,7 @@ const Form = () => {
           const answerData = await resAnswers.json();
           const savedAnswers: string[] = answerData.answers;
     
-          // Map those answers back into the `responses` state
+          // Map those answers back into the responses state
           const restoredResponses: Record<number, string | string[]> = {};
           savedAnswers.forEach((entry: string, index: number) => {
             const [label, ...rest] = entry.split(": ");
