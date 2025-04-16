@@ -28,8 +28,47 @@ const Form = () => {
     const [responses, setResponses] = useState<Record<number, string | string[]>>({});
 
     useEffect(() => {
-        setQuestions(questionsData);
-    }, []);
+      setQuestions(questionsData);
+    
+      const fetchPreviousAnswers = async () => {
+        if (!session?.user?.email) return;
+    
+        try {
+          // Get user ID from email
+          const resUser = await fetch(`/api?email=${session.user.email}`);
+          const userData = await resUser.json();
+          const userId = userData.user?._id;
+    
+          if (!userId) return;
+    
+          // Fetch saved answers
+          const resAnswers = await fetch(`/api/user/${userId}`);
+          const answerData = await resAnswers.json();
+          const savedAnswers: string[] = answerData.answers;
+    
+          // Map those answers back into the `responses` state
+          const restoredResponses: Record<number, string | string[]> = {};
+          savedAnswers.forEach((entry: string, index: number) => {
+            const [label, ...rest] = entry.split(": ");
+            const answerText = rest.join(": ").trim();
+    
+            const question = questionsData[index];
+    
+            if (question?.type === 'pick-multiple') {
+              restoredResponses[index] = answerText.split(", ").filter(Boolean);
+            } else {
+              restoredResponses[index] = answerText;
+            }
+          });
+    
+          setResponses(restoredResponses);
+        } catch (err) {
+          console.error("Failed to load saved answers:", err);
+        }
+      };
+    
+      fetchPreviousAnswers();
+    }, [session]);
 
     const handleChange = (index: number, value: string | string[]) => {
         setResponses((prev) => ({ ...prev, [index]: value }));
@@ -140,6 +179,7 @@ const Form = () => {
               <input
                 type="number"
                 name={`question-${index}`}
+                value={responses[index] || ''}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
                 onChange={(e) => handleChange(index, e.target.value)}
               />
@@ -154,6 +194,7 @@ const Form = () => {
               <input
                 type="tel"
                 name={`question-${index}`}
+                value={responses[index] || ''}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
                 onChange={(e) => handleChange(index, e.target.value)}
               />
@@ -168,6 +209,7 @@ const Form = () => {
               <input
                 type="email"
                 name={`question-${index}`}
+                value={responses[index] || ''}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
                 onChange={(e) => handleChange(index, e.target.value)}
               />
@@ -183,6 +225,7 @@ const Form = () => {
                 type="text"
                 name={`question-${index}`}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
+                value={(responses[index] as string) || ''}
                 onChange={(e) => handleChange(index, e.target.value)}
               />
             </div>
@@ -202,6 +245,7 @@ const Form = () => {
                       name={`question-${index}`}
                       value={ans}
                       className={inputClass}
+                      checked={responses[index] === ans}
                       onChange={() => handleChange(index, ans)}
                     />
                     <span className="text-gray-800">{ans}</span>
@@ -235,7 +279,7 @@ const Form = () => {
                       name={`question-${index}`}
                       value={ans}
                       className={inputClass}
-                      checked={currentValues.includes(ans)}
+                      checked={(responses[index] as string[] | undefined)?.includes(ans) || false}
                       onChange={(e) => toggleCheckbox(ans, e.target.checked)}
                     />
                     <span className="text-gray-800">{ans}</span>
