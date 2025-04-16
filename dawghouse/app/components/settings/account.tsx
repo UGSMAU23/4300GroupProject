@@ -47,7 +47,7 @@ function Account(props: SettingsProp) {
     }
 
     return (
-        <div className="mr-10 ml-20 mb-10 w-80 h-85 pt-10 flex flex-col items-center justify-center">
+        <div className="md:mr-10 md:ml-20 md:mb-10 w-80 h-120 md:h-85 pt-10 flex flex-col items-center justify-center">
             <ToastContainer />
             <h1 className="mb-5 text-center ml-5 text-lg">Edit Account Details</h1>
             <Form action={''} onSubmit={onSubmit} className="flex flex-col ml-5">

@@ -99,10 +99,10 @@ function SettingsCard(props: SettingsProp) {
 
     return (
         <>
-        <div className="flex justify-center items-center bg-pink-50 w-screen h-screen">
-            <div className={`bg-white border border-gray-200 rounded-lg p-4 shadow-md ${poppins.className}`}>
-                <div className="flex ml-5 mt-5 mb-5">
-                    <div className="flex flex-col">
+        <div className="flex justify-center items-center bg-pink-50 min-h-screen">
+            <div className={`bg-white my-12 md:my-0 border border-gray-200 rounded-lg p-4 shadow-md max-w-screen ${poppins.className}`}>
+                <div className="flex flex-col md:flex-row gap-6 mt-5 mb-5">
+                    <div className="flex flex-col md:ml-5">
                         <h1 className="text-2xl mb-10">Account Settings</h1>
                         <Link href={''} onClick={() => setSelectedComponent('appearance')}>
                         <h3 className={selectedComponent === 'appearance' ? 'mb-2 text-red-800' : 'mb-2'}>Appearance</h3>

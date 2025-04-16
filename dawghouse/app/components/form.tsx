@@ -253,7 +253,7 @@ const Form = () => {
         <div className="w-full min-h-screen">
           <ToastContainer />
           <div className="bg-white w-full py-10 px-4 flex justify-center items-center">
-            <h1 className="text-3xl md:text-5xl text-center text-black max-w-4xl">
+            <h1 className="text-2xl md:text-4xl text-center text-black max-w-4xl">
               Complete the following housing survey to calculate your compatible roommates!
             </h1>
           </div>

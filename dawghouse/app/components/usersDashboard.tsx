@@ -47,11 +47,11 @@ const UsersDashboard = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
             
-            <div className="text-center mb-12 py-6">
-                <h1 className="text-3xl font-bold text-black">
+            <div className="text-center mb-12 px-6 md:px-0 md:py-6">
+                <h1 className="text-2xl md:text-3xl font-bold text-black">
                 Thank you for completing your entry survey!
                 </h1>
-                <p className="text-lg text-black mt-4">
+                <p className="text-1xl md:text-lg text-black mt-4">
                 Below you will find students who are most compatible with you based on your survey responses.
                 </p>
             </div>

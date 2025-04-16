@@ -43,7 +43,7 @@ function Appearance(props: AppearanceProp) {
     })
 
     return (
-        <div className="mr-10 ml-20 mt-10 w-80 h-85 flex flex-col justify-center align-center">
+        <div className="md:mr-10 md:ml-20 md:mt-10 w-80 h-85 flex flex-col justify-center align-center">
             <Image src={`https://gravatar.com/avatar/${email}`} width='100' height='150' alt="Profile picture" className="rounded-full mb-5 ml-20"></Image>
             <Form action={'api/updateProfile'} className="flex flex-col ml-5">
                 <label htmlFor="name" className=''>Name</label>
