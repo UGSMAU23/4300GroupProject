@@ -171,6 +171,7 @@ const Form = () => {
       const renderQuestion = (q: Question, index: number) => {
         const label = q.question || q.questions || `Question ${index + 1}`;
         const inputClass = "mr-3 w-4 h-4 accent-red-800";
+        const isRequired = index < questions.length - 2;
     
         if (q.type === 'free-number') {
           return (
@@ -178,6 +179,7 @@ const Form = () => {
               <label className="block font-medium mb-2 text-gray-900">{label}</label>
               <input
                 type="number"
+                required={isRequired}
                 name={`question-${index}`}
                 value={responses[index] || ''}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
@@ -193,6 +195,7 @@ const Form = () => {
               <label className="block font-medium mb-2 text-gray-900">{label}</label>
               <input
                 type="tel"
+                required={isRequired}
                 name={`question-${index}`}
                 value={responses[index] || ''}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
@@ -208,6 +211,7 @@ const Form = () => {
               <label className="block font-medium mb-2 text-gray-900">{label}</label>
               <input
                 type="email"
+                required={isRequired}
                 name={`question-${index}`}
                 value={responses[index] || ''}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
@@ -223,6 +227,7 @@ const Form = () => {
               <label className="block font-medium mb-2 text-gray-900">{label}</label>
               <input
                 type="text"
+                required={isRequired}
                 name={`question-${index}`}
                 className="border border-gray-300 rounded-md px-4 py-2 w-full shadow-sm"
                 value={(responses[index] as string) || ''}
@@ -241,6 +246,7 @@ const Form = () => {
                   <label key={i} className="flex items-center">
                     <input
                       type="radio"
+                      required={isRequired}
                       id={`q${index}-a${i}`}
                       name={`question-${index}`}
                       value={ans}
