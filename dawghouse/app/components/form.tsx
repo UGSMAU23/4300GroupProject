@@ -227,7 +227,7 @@ const Form = () => {
           });
 
           // Submit scores
-          toast.update(loadToast, {render: "Generating Summary", progress: .625});
+          toast.update(loadToast, {render: "Submitting Score", progress: .625});
           const scores = calculateScores();
           console.log("Scores:", scores);
 
