@@ -2,6 +2,7 @@
 import pfp from '@/public/images/pfp.jpg'
 import Image from "next/image";
 import UserModal from './userModal';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 
 interface User {
@@ -10,12 +11,57 @@ interface User {
     hashEmail: string;
     description?: string;
     answers?: string[];
-    // can add other fields later.
+    scores?: {
+      age: number;
+      gender: number;
+      genderPreference: number;
+      living: number;
+      personality: number;
+      substances: number;
+      locations: string[];
+    }
 }
 
+export function computeCompatibility(userA: User, userB: User): number {
+  if (!userA.scores || !userB.scores) return 0;
+
+  const weights = {
+    personality: 3,
+    living: 2,
+    substances: 3,
+    gender: 0,
+    genderPreference: 2
+  };
+
+  let difTotal = 0;
+  let weightTotal = 0;
+
+  for (const key in weights) {
+    const weight = weights[key as keyof typeof weights];
+    const aVal = userA.scores[key as keyof typeof weights];
+    const bVal = userB.scores[key as keyof typeof weights];
+
+    difTotal += Math.abs(aVal - bVal) * weight;
+    weightTotal += weight;
+  }
+
+  let out = (1 - difTotal / (weightTotal * 100)) * 100;
+
+  const myLocs = userA.scores.locations ?? [];
+  const otherLocs = userB.scores.locations ?? [];
+
+  if (myLocs.length && otherLocs.length) {
+    const filtered = myLocs.filter(loc => otherLocs.includes(loc));
+    if (filtered.length == 0) out *= 0.2;
+    else if (filtered.length <= 1) out *= 0.85;
+  }
+
+  return Math.round(out);
+}
 
 const UsersDashboard = () => {
     const [users, setUsers] = useState<User[]>([]);
+    const { data: session } = useSession();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
 
