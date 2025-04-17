@@ -30,9 +30,9 @@ const Form = () => {
     useEffect(() => {
       setQuestions(questionsData);
     
-      const fetchPreviousAnswers = async () => {
+      async function fetchPreviousAnswers() {
         if (!session?.user?.email) return;
-    
+        const loadingAnswersToast = toast.loading("Loading Previous Results...", {position: "top-center", progress: 0});
         try {
           // Get user ID from email
           const resUser = await fetch(`/api?email=${session.user.email}`);
@@ -40,12 +40,13 @@ const Form = () => {
           const userId = userData.user?._id;
     
           if (!userId) return;
-    
+          toast.update(loadingAnswersToast, {progress: .25});
           // Fetch saved answers
           const resAnswers = await fetch(`/api/user/${userId}`);
           const answerData = await resAnswers.json();
           const savedAnswers: string[] = answerData.answers;
     
+          toast.update(loadingAnswersToast, {progress: .5});
           // Map those answers back into the responses state
           const restoredResponses: Record<number, string | string[]> = {};
           savedAnswers.forEach((entry: string, index: number) => {
@@ -60,15 +61,19 @@ const Form = () => {
               restoredResponses[index] = answerText;
             }
           });
-    
+          toast.update(loadingAnswersToast, {progress: .75});
           setResponses(restoredResponses);
         } catch (err) {
           console.error("Failed to load saved answers:", err);
+          toast.update(loadingAnswersToast, {render: "Error loading saved answers", type: "error", progress: 1, autoClose: 2000})
+          return;
         }
+        toast.update(loadingAnswersToast, {render: "Previous answers loaded", type: "success", progress: 1, autoClose: 2000});
       };
     
       fetchPreviousAnswers();
-    }, [session]);
+      // Removed session from the useEffect
+    }, []);
 
     const handleChange = (index: number, value: string | string[]) => {
         setResponses((prev) => ({ ...prev, [index]: value }));
@@ -419,7 +424,7 @@ const Form = () => {
     
       return (
         <div className="w-full min-h-screen">
-          <ToastContainer />
+          <ToastContainer limit={1}/>
           <div className="bg-white w-full py-10 px-4 flex justify-center items-center">
             <h1 className="text-2xl md:text-4xl text-center text-black max-w-4xl">
               Complete the following housing survey to calculate your compatible roommates!
