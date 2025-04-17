@@ -25,7 +25,7 @@ const UserSchema = new Schema<User>({
     hashEmail: {type: String},
     description: {type: String},
     scores: {
-        age: { type: Number, default: 18 },
+        age: { type: Number, default: 0 },
         gender: { type: Number, default: 50 },
         living: { type: Number, default: 50 },
         personality: { type: Number, default: 50 },

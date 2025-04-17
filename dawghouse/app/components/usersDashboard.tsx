@@ -20,10 +20,14 @@ interface User {
       substances: number;
       locations: string[];
     }
+    compatibility?: number;
 }
 
 export function computeCompatibility(userA: User, userB: User): number {
   if (!userA.scores || !userB.scores) return 0;
+  if (userA.scores.age == 0 || userB.scores.age == 0) return 0; // Since schema has default answers, we will use age to check if scores were actually filled out*
+
+  console.log("Computing compatibility between " + userA.username + " and " + userB.username);
 
   const weights = {
     personality: 3,
@@ -70,7 +74,28 @@ const UsersDashboard = () => {
           try {
             const res = await fetch("/api/user");
             const data = await res.json();
-            setUsers(data);
+            if (!session?.user?.email) return;
+            
+            const resUser = await fetch(`/api?email=${session.user.email}`);
+            const userData = await resUser.json();
+            const userId = userData.user?._id;
+            if (!userId) return;
+
+            // Filter and sort users by compatibility, using computeCompatibility where user A is self and user B is other user
+            // If compatibility is <= 50, filter out user.
+            // Filters self out
+            const fUsers: (User & { compatibility: number })[] = [];
+
+            for (const user of data) {
+              if (user._id == userId || !user.scores) continue;
+              const comp = computeCompatibility(userData.user, user);
+              user.compatibility = comp;
+              if (comp > 50) fUsers.push({ ...user, comp });
+            }
+
+            fUsers.sort((a, b) => b.compatibility - a.compatibility);
+
+            setUsers(fUsers);
           } catch (error) {
             console.error("Failed to fetch users:", error);
           }
@@ -117,7 +142,7 @@ const UsersDashboard = () => {
                 </div>
                 <p className="text-black font-semibold">{user.username}</p>
                 <p className="text-red-800 font-semibold">
-                {Math.floor(Math.random() * 21) + 80}% Compatible
+                {user.compatibility}% Compatible
                 </p>
                 <button onClick={() => openModal(index)} className="mt-4 cursor-pointer bg-red-800 text-white py-2 px-4 rounded hover:bg-red-900">
                 Learn More
