@@ -30,9 +30,36 @@ const Login = () => {
             if (response?.error) {
                 toast.update(status, {render: "Error Logging In. Please try again", type: "error", isLoading: false, autoClose: 3000});
             } else {
-                toast.update(status, {render: "Successfully Logged In. Redirecting.", type: "success", isLoading: false, autoClose: 2000});
-                await new Promise(r => setTimeout(r, 2000)); 
-                router.replace("/");
+                
+                toast.update(status, { render: "Successfully Logged In. Redirecting...", type: "success", isLoading: false, autoClose: 2000 });
+                try {
+                const email = formData.get("email")?.toString();
+                if (!email) throw new Error("Missing email");
+
+                // Get user ID from email
+                const resUser = await fetch(`/api?email=${email}`);
+                const userData = await resUser.json();
+                const userId = userData.user?._id;
+                if (!userId) throw new Error("No user ID found");
+
+                // Get answers array
+                const resAnswers = await fetch(`/api/user/${userId}`);
+                const answerData = await resAnswers.json();
+                const answers: string[] = answerData.answers;
+
+                // Delay to let toast show for a sec
+                await new Promise(r => setTimeout(r, 2000));
+
+                // If they have completed their quiz before.
+                if (answers.length > 1) {
+                    router.replace("/matches");
+                } else {
+                    router.replace("/quiz");
+                }
+                } catch (err) {
+                console.error("Error checking answers after login:", err);
+                router.replace("/quiz");
+                }
             }
         } catch (e: any) {
             console.error(e);

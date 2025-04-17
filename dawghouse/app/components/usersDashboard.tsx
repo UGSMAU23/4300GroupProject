@@ -101,9 +101,10 @@ const UsersDashboard = () => {
           }
         };
     
-        fetchUsers();
-
-      }, []);
+        if (session?.user?.email) {
+          fetchUsers();
+        }
+      }, [session]);
 
     const openModal = (index: number) => {
         setSelectedUserIndex(index);
