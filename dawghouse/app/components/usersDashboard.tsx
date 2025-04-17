@@ -82,7 +82,7 @@ const UsersDashboard = () => {
             if (!userId) return;
 
             // Filter and sort users by compatibility, using computeCompatibility where user A is self and user B is other user
-            // If compatibility is <= 50, filter out user.
+            // If compatibility is <= 0, filter out user.
             // Filters self out
             const fUsers: (User & { compatibility: number })[] = [];
 
@@ -90,7 +90,7 @@ const UsersDashboard = () => {
               if (user._id == userId || !user.scores) continue;
               const comp = computeCompatibility(userData.user, user);
               user.compatibility = comp;
-              if (comp > 50) fUsers.push({ ...user, comp });
+              if (comp > 0) fUsers.push({ ...user, comp });
             }
 
             fUsers.sort((a, b) => b.compatibility - a.compatibility);
@@ -153,7 +153,6 @@ const UsersDashboard = () => {
             <UserModal
               isOpen={isModalOpen}
               user={selectedUserIndex !== null ? users[selectedUserIndex] : null}
-              compatibility={selectedUserIndex !== null ? Math.floor(Math.random() * 21) + 80 : null}
               onClose={closeModal}
             />
       </div>

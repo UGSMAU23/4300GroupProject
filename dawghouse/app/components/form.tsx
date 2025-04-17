@@ -286,7 +286,6 @@ const Form = () => {
         }
       };
     
-
       const renderQuestion = (q: Question, index: number) => {
         const label = q.question || q.questions || `Question ${index + 1}`;
         const inputClass = "mr-3 w-4 h-4 accent-red-800";

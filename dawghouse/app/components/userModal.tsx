@@ -4,13 +4,13 @@ interface UserModalProps {
     username: string;
     description?: string;
     answers?: string[];
+    compatibility?: number | null;
     // add more fields later like contact, email
   } | null;
-  compatibility: number | null;
   onClose: () => void;
 }
 
-const UserModal: React.FC<UserModalProps> = ({ isOpen, user, compatibility, onClose }) => {
+const UserModal: React.FC<UserModalProps> = ({ isOpen, user, onClose }) => {
   if (!isOpen || !user) return null;
 
   const extractAnswer = (labelStart: string): string | null => {
@@ -45,7 +45,7 @@ const UserModal: React.FC<UserModalProps> = ({ isOpen, user, compatibility, onCl
           Meet {user.username}
         </h2>
         <p className="text-sm text-gray-500 mb-4">
-          You are {compatibility}% Roommate Compatible!
+          You are {user.compatibility}% Roommate Compatible!
         </p>
 
         <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
