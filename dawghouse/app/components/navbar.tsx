@@ -27,6 +27,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [hasCompletedQuiz, setHasCompletedQuiz] = useState<boolean | null>(null);
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -43,8 +44,11 @@ const Navbar = () => {
 
   const handleLoggedInLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    router.push('/matches');
-    
+    if (hasCompletedQuiz) {
+      router.push('/matches');
+    } else {
+      router.push('/quiz');
+    }
   };
 
   const handleScrollClick = (e: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -79,7 +83,38 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [pathname]);
 
-  //console.log("NAVBAR Session: ", session);
+  useEffect(() => {
+    const fetchAnswers = async () => {
+      if (session?.user?.email) {
+        try {
+          // Get user ID from email
+          const resUser = await fetch(`/api?email=${session.user.email}`);
+          const userData = await resUser.json();
+          const userId = userData.user?._id;
+  
+          if (!userId) {
+            setHasCompletedQuiz(false);
+            return;
+          }
+  
+          // Fetch saved answers
+          const resAnswers = await fetch(`/api/user/${userId}`);
+          const answerData = await resAnswers.json();
+          const savedAnswers: string[] = answerData.answers;
+  
+          // Check if they actually completed the quiz
+          const hasAnswered = Array.isArray(savedAnswers) && savedAnswers.length > 0;
+          setHasCompletedQuiz(hasAnswered);
+        } catch (err) {
+          console.error("Failed to fetch answers:", err);
+          setHasCompletedQuiz(false);
+        }
+      }
+    };
+  
+    fetchAnswers();
+  }, [session]);
+
   if (session != null) {
     return (
 
@@ -115,9 +150,11 @@ const Navbar = () => {
                 <Link href="/quiz" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                 <ClipboardList size={16} /> Questionnaire
                 </Link>
-                <Link href="/matches" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
-                <Users size={16} /> Matches
-                </Link>
+                {hasCompletedQuiz && (
+                  <Link href="/matches" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+                    <Users size={16} /> Matches
+                  </Link>
+                )}
                 <Link href="/settings" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
                 <SettingsIcon size={16} /> Settings
                 </Link>
@@ -145,9 +182,11 @@ const Navbar = () => {
               <Link href="/quiz" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
               <ClipboardList size={16} /> Questionnaire
               </Link>
-              <Link href="/matches" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
-              <Users size={16} /> Matches
-              </Link>
+              {hasCompletedQuiz && (
+                <Link href="/matches" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
+                  <Users size={16} /> Matches
+                </Link>
+              )}
               <Link href="/settings" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
               <SettingsIcon size={16} /> Settings
               </Link>

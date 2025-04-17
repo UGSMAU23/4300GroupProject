@@ -39,7 +39,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     await connectMongoDB();
     const user = await User.findById(id).select("answers");
-    console.log("user: " + user?.answers);
+    // console.log("user: " + user?.answers);
 
     if (!user) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
