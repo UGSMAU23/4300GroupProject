@@ -51,7 +51,7 @@ function SettingsCard(props: SettingsProp) {
 
     const [selectedComponent, setSelectedComponent] = useState('appearance');
 
-    let accountName = props.accountName;
+    const accountName = props.accountName;
     useEffect(() => {
         const fetchImage = async () => {
             setEmail(await sha256(props.email));

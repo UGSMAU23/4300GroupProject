@@ -22,14 +22,14 @@ const SettingsPage = () => {
         if (!session) {
             router.replace('/login');
         }
-    }), [session, router];
+    }, [session, router]);
 
     if (status == "loading") {
         return null;
     }
 
     return (
-    <SettingsCard email={session?.user?.email} accountName={session?.user?.name}/>
+    <SettingsCard email={session?.user?.email ?? "null@null.com"} accountName={session?.user?.name ?? "Null User"}/>
     );
 };
 

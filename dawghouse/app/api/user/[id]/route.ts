@@ -5,7 +5,7 @@ import User from "@/models/UserSchema";
 import bcrypt from "bcryptjs";
 
 interface RouteParams {
-    params: {id: string};
+    params: Promise<{id: string}>;
 }
 
 export async function PUT(request: NextRequest, {params}:RouteParams) {
