@@ -22,6 +22,12 @@ const CreateAccount = () => {
         setIsLoading(true);
         event.preventDefault();
 
+        if (!email.includes('@uga.edu')) {
+            toast.error("Please use your UGA email address", {position: "top-center", autoClose: 3000});
+            setIsLoading(false);
+            return;
+        }
+
         const loginPromise = new Promise(async resolve => {
             try {
                 const response = await fetch('/api/user/create', {
