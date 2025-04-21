@@ -142,7 +142,7 @@ const Navbar = () => {
 
           <div className="relative" ref={dropdownRef}>
             <button onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center cursor-pointer gap-1 font-semibold hover:text-red-800 transition-colors">
-              Account <ChevronDown size={18} />
+              Welcome, {session?.user?.name}<ChevronDown size={18} />
             </button>
 
             {dropdownOpen && (
