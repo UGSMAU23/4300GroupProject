@@ -6,6 +6,7 @@ interface RouteParams {
     params: {id: string};
 }
 
+// get data except password for a user, used for usersDashboard
 export async function GET(request: NextRequest) {
     try {
         await connectMongoDB();

@@ -21,7 +21,7 @@ const CreateAccount = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         setIsLoading(true);
         event.preventDefault();
-
+        // ensure its exclusively uga emails
         if (!email.includes('@uga.edu')) {
             toast.error("Please use your UGA email address", {position: "top-center", autoClose: 3000});
             setIsLoading(false);

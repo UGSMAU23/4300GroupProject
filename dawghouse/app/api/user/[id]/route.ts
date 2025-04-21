@@ -8,6 +8,7 @@ interface RouteParams {
     params: Promise<{id: string}>;
 }
 
+// update data for a specific user ID
 export async function PUT(request: NextRequest, {params}:RouteParams) {
     const { id } = await params;
     const { username, email, answers, currentPassword, newPassword, description, scores } = await request.json();
@@ -35,6 +36,7 @@ export async function PUT(request: NextRequest, {params}:RouteParams) {
     return NextResponse.json({message: "User updated"}, {status: 200});
 }
 
+// get the answers for a specific user ID
 export async function GET(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     await connectMongoDB();
@@ -47,6 +49,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json({ answers: user.answers }, { status: 200 });
 }
 
+// delete a user for a specific user ID
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     await connectMongoDB();

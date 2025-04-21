@@ -18,7 +18,7 @@ const Contact = () => {
     const email = formData.get('email')?.toString() || '';
     const message = formData.get('message')?.toString() || '';
     setIsSubmitting(true);
-
+    // send data to contact database. 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',

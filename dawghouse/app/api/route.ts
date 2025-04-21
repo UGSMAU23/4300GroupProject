@@ -6,6 +6,7 @@ interface RouteParams {
     params: {email: string};
 }
 
+// get email for a user. used for session related things. 
 export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const email = url.searchParams.get("email");

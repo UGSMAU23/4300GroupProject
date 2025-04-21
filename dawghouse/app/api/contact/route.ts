@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "@/config/mongodb";
 import Contact from "@/models/ContactSchema";
 
+// sends a message to our database for the contact form
 export async function POST(request: NextRequest) {
     try {
       const { name, email, message } = await request.json();

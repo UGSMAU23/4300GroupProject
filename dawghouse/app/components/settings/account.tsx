@@ -17,6 +17,7 @@ function Account(props: SettingsProp) {
             position: "top-center",
         });
         
+        // grab ID from email 
         const idRequest = await fetch(`/api?email=${email}`, {
             method: "GET",
         })
@@ -33,7 +34,7 @@ function Account(props: SettingsProp) {
             console.log("false");
             body = {username: username, email: email, currentPassword: currentPassword, newPassword: newPassword};
         }
-
+        // use ID to update user data
         const updateRequest = await fetch(`/api/user/${id}`, {
             method: "PUT",
             headers: {
