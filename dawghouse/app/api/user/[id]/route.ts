@@ -39,11 +39,23 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     await connectMongoDB();
     const user = await User.findById(id).select("answers");
-    // console.log("user: " + user?.answers);
 
     if (!user) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json({ answers: user.answers }, { status: 200 });
+}
+
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+    const { id } = await params;
+    await connectMongoDB();
+
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+        return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
 }
