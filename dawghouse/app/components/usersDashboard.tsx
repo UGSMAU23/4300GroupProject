@@ -70,47 +70,68 @@ const UsersDashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
 
-    useEffect(() => {
-        const loadingToast = toast.loading("Loading matches...", {position: 'top-center', progress: 0});
-        const fetchUsers = async () => {
-          try {
-            const res = await fetch("/api/user");
-            const data = await res.json();
-            if (!session?.user?.email) return;
-            toast.update(loadingToast, {progress: .25});
-            const resUser = await fetch(`/api?email=${session.user.email}`);
-            const userData = await resUser.json();
-            const userId = userData.user?._id;
-            if (!userId) return;
-            toast.update(loadingToast, {progress: .30});
-
-            // Filter and sort users by compatibility, using computeCompatibility where user A is self and user B is other user
-            // If compatibility is <= 0, filter out user.
-            // Filters self out
-            const fUsers: (User & { compatibility: number })[] = [];
-            const length = data.length + 1;
-            const counter = 1;
-            for (const user of data) {
-              toast.update(loadingToast, {progress: counter/length});
-              if (user._id == userId || !user.scores) continue;
-              const comp = computeCompatibility(userData.user, user);
-              user.compatibility = comp;
-              if (comp > 0) fUsers.push({ ...user, comp });
-            }
-
-            fUsers.sort((a, b) => b.compatibility - a.compatibility);
-
-            setUsers(fUsers);
-            toast.update(loadingToast, {render: "Users loaded", progress: 1, type: 'success'});
-          } catch (error) {
-            console.error("Failed to fetch users:", error);
-          }
-        };
+    const fetchUsers = async () => {
+      const loadingToast = toast.loading("Loading matches...", {
+        position: "top-center",
+        progress: 0,
+      });
     
-        if (session?.user?.email) {
-          fetchUsers();
+      if (!session?.user?.email) {
+        toast.dismiss(loadingToast);
+        return;
+      }
+    
+      try {
+        const res = await fetch("/api/user");
+        const data = await res.json();
+        toast.update(loadingToast, { progress: 0.25 });
+    
+        const resUser = await fetch(`/api?email=${session.user.email}`);
+        const userData = await resUser.json();
+        const userId = userData.user?._id;
+        if (!userId) throw new Error("User ID not found");
+    
+        toast.update(loadingToast, { progress: 0.3 });
+    
+        const fUsers: (User & { compatibility: number })[] = [];
+        const length = data.length + 1;
+        let counter = 1;
+    
+        for (const user of data) {
+          toast.update(loadingToast, { progress: counter / length });
+          counter++;
+    
+          if (user._id === userId || !user.scores) continue;
+    
+          const comp = computeCompatibility(userData.user, user);
+          user.compatibility = comp;
+          if (comp > 0) fUsers.push({ ...user, comp });
         }
-      }, []);
+    
+        fUsers.sort((a, b) => b.compatibility - a.compatibility);
+    
+        setUsers(fUsers);
+        toast.update(loadingToast, {
+          render: "Users loaded",
+          progress: 1,
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+        toast.update(loadingToast, {
+          render: "Error loading users",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
+    };
+
+    useEffect(() => {
+      fetchUsers();
+    }, [session?.user?.email]);
 
     const openModal = (index: number) => {
         setSelectedUserIndex(index);
