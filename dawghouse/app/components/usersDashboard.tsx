@@ -3,7 +3,7 @@ import pfp from '@/public/images/pfp.jpg'
 import Image from "next/image";
 import UserModal from './userModal';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 
 interface User {
@@ -129,8 +129,13 @@ const UsersDashboard = () => {
       }
     };
 
+    const hasFetched = useRef(false);
+
     useEffect(() => {
-      fetchUsers();
+      if (!hasFetched.current && session?.user?.email) {
+        hasFetched.current = true;
+        fetchUsers();
+      }
     }, [session?.user?.email]);
 
     const openModal = (index: number) => {
